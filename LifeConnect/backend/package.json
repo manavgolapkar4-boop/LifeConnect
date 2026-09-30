@@ -1,0 +1,19 @@
+{
+  "name": "lifeconnect-backend",
+  "version": "1.0.0",
+  "description": "LifeConnect Phase 3 backend — Node.js + Express authentication API using JSON-file storage. College project (TYIT Semester 5).",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["lifeconnect", "express", "auth", "college-project"],
+  "license": "UNLICENSED",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

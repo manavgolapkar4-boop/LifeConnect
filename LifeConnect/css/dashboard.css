@@ -1,0 +1,270 @@
+/* ==========================================================================
+   LifeConnect — Dashboard Styles
+   Shared by role dashboards (Donor now; Requester/Admin reuse these later).
+   Built on top of the existing tokens/components — no new color system.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------------- */
+/* Welcome header                                                          */
+/* ---------------------------------------------------------------------- */
+.dash-header-lc {
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: var(--space-6) 0;
+}
+.dash-header-lc h1 { font-size: var(--fs-2xl); margin-bottom: var(--space-1); }
+
+/* ---------------------------------------------------------------------- */
+/* Stat cards with icon                                                    */
+/* ---------------------------------------------------------------------- */
+.stat-icon-card-lc {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+.stat-icon-card-lc .stat-icon-lc {
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  background-color: var(--primary-tint);
+  color: var(--primary);
+}
+.stat-icon-card-lc.tone-secondary .stat-icon-lc { background-color: var(--secondary-tint); color: var(--secondary); }
+.stat-icon-card-lc.tone-success .stat-icon-lc { background-color: var(--success-tint); color: var(--success); }
+.stat-icon-card-lc.tone-warning .stat-icon-lc { background-color: var(--warning-tint); color: var(--warning); }
+
+/* ---------------------------------------------------------------------- */
+/* Availability toggle control                                             */
+/* ---------------------------------------------------------------------- */
+.availability-card-lc {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+.availability-card-lc .availability-label-lc {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--secondary);
+  margin-bottom: var(--space-1);
+}
+.lc-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  cursor: pointer;
+}
+.lc-switch input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+.lc-switch .track-lc {
+  width: 46px;
+  height: 26px;
+  border-radius: var(--radius-pill);
+  background-color: var(--inactive-tint);
+  border: 1px solid var(--border-strong);
+  position: relative;
+  transition: background-color var(--duration-fast) var(--ease), border-color var(--duration-fast) var(--ease);
+  flex-shrink: 0;
+}
+.lc-switch .track-lc::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--duration-fast) var(--ease);
+}
+.lc-switch input:checked ~ .track-lc {
+  background-color: var(--success);
+  border-color: var(--success);
+}
+.lc-switch input:checked ~ .track-lc::after { transform: translateX(20px); }
+.lc-switch input:focus-visible ~ .track-lc { outline: 2px solid var(--primary); outline-offset: 2px; }
+.lc-switch .state-text-lc { font-size: var(--fs-sm); font-weight: 600; color: var(--muted); }
+.lc-switch input:checked ~ .state-text-lc { color: var(--success); }
+
+/* ---------------------------------------------------------------------- */
+/* Quick actions                                                           */
+/* ---------------------------------------------------------------------- */
+.quick-action-lc {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--surface);
+  transition: border-color var(--duration-fast) var(--ease), background-color var(--duration-fast) var(--ease);
+  color: var(--text);
+  height: 100%;
+}
+.quick-action-lc:hover { border-color: var(--primary); background-color: var(--primary-tint); color: var(--text); }
+.quick-action-lc .qa-icon-lc {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--secondary-tint);
+  color: var(--secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.quick-action-lc .qa-label-lc { font-weight: 600; font-size: var(--fs-sm); color: var(--secondary); }
+
+/* ---------------------------------------------------------------------- */
+/* Recent activity feed                                                    */
+/* ---------------------------------------------------------------------- */
+.activity-list-lc { list-style: none; margin: 0; padding: 0; }
+.activity-item-lc {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--border);
+}
+.activity-item-lc:last-child { border-bottom: none; }
+.activity-item-lc .activity-icon-lc {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: var(--surface-alt);
+  color: var(--secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.95rem;
+}
+.activity-item-lc .activity-text-lc { font-size: var(--fs-sm); color: var(--text); margin-bottom: 2px; }
+.activity-item-lc .activity-time-lc { font-size: var(--fs-xs); color: var(--muted); }
+
+/* ---------------------------------------------------------------------- */
+/* Profile completion                                                      */
+/* ---------------------------------------------------------------------- */
+.progress-lc {
+  width: 100%;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background-color: var(--surface-alt);
+  overflow: hidden;
+}
+.progress-lc .bar-lc {
+  height: 100%;
+  background-color: var(--success);
+  border-radius: var(--radius-pill);
+  transition: width var(--duration) var(--ease);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Notification list                                                       */
+/* ---------------------------------------------------------------------- */
+.notification-item-lc {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--surface);
+  position: relative;
+}
+.notification-item-lc.unread {
+  background-color: var(--primary-tint);
+  border-color: #F0C9D0;
+}
+.notification-item-lc .notif-icon-lc {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background-color: var(--secondary-tint);
+  color: var(--secondary);
+}
+.notification-item-lc.unread .notif-icon-lc { background-color: var(--primary); color: #fff; }
+.notification-item-lc .notif-title-lc { font-weight: 600; color: var(--secondary); font-size: var(--fs-sm); }
+.notification-item-lc .notif-msg-lc { font-size: var(--fs-sm); color: var(--muted); margin-bottom: 2px; }
+.notification-item-lc .notif-time-lc { font-size: var(--fs-xs); color: var(--muted); }
+.notification-item-lc .unread-dot-lc {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Request card (donor blood-requests inbox)                               */
+/* ---------------------------------------------------------------------- */
+.request-card-lc {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.request-card-lc .request-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+.request-meta-row-lc {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-sm);
+  color: var(--muted);
+}
+.request-card-actions-lc {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: auto;
+  padding-top: var(--space-2);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Profile page                                                            */
+/* ---------------------------------------------------------------------- */
+.profile-header-lc {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+.profile-avatar-lc {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background-color: var(--secondary-tint);
+  color: var(--secondary);
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.profile-field-lc dt { font-size: var(--fs-xs); color: var(--muted); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 2px; }
+.profile-field-lc dd { font-size: var(--fs-sm); color: var(--text); margin-bottom: var(--space-4); }
+
+@media (max-width: 767.98px) {
+  .availability-card-lc { flex-direction: column; align-items: flex-start; }
+}

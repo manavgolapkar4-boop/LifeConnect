@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings — LifeConnect Admin</title>
+  <meta name="description" content="LifeConnect admin account and platform settings (demo)." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/global.css">
+  <link rel="stylesheet" href="../../css/components.css">
+  <link rel="stylesheet" href="../../css/responsive.css">
+  <link rel="stylesheet" href="../../css/dashboard.css">
+  <link rel="stylesheet" href="../../css/admin.css">
+</head>
+<body class="lc-admin-body">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div class="lc-admin-shell" id="adminShell">
+    <aside class="lc-admin-sidebar" id="lc-admin-sidebar-root"></aside>
+    <div class="lc-admin-content">
+      <header class="lc-admin-topbar" id="lc-admin-topbar-root"></header>
+      <main id="main-content" class="lc-admin-main">
+
+        <div class="alert-lc alert-warning-lc mb-4">
+          <i class="bi bi-info-circle-fill"></i>
+          <div>Settings on this page are <strong>frontend-only placeholders</strong> for this phase — nothing here is saved to a real account or database yet.</div>
+        </div>
+
+        <div class="row gy-4" style="max-width:760px;">
+          <div class="col-12">
+            <div class="card-lc">
+              <h4 class="mb-3">Admin Account</h4>
+              <dl class="row profile-field-lc mb-0">
+                <div class="col-sm-6"><dt>Name</dt><dd>Admin Account</dd></div>
+                <div class="col-sm-6"><dt>Email</dt><dd>admin@lifeconnect.example</dd></div>
+                <div class="col-sm-6"><dt>Role</dt><dd>Administrator</dd></div>
+                <div class="col-sm-6"><dt>Account Status</dt><dd><span class="badge-lc badge-success-lc"><span class="badge-dot-lc"></span> Active</span></dd></div>
+              </dl>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="card-lc">
+              <h4 class="mb-3">Notification Preferences</h4>
+              <div class="d-flex flex-column gap-3">
+                <label class="lc-switch">
+                  <input type="checkbox" id="notifNewRequests" checked>
+                  <span class="track-lc" aria-hidden="true"></span>
+                  <span class="state-text-lc">Notify me about new blood requests</span>
+                </label>
+                <label class="lc-switch">
+                  <input type="checkbox" id="notifVerification" checked>
+                  <span class="track-lc" aria-hidden="true"></span>
+                  <span class="state-text-lc">Notify me about pending donor verifications</span>
+                </label>
+                <label class="lc-switch">
+                  <input type="checkbox" id="notifWeeklyDigest">
+                  <span class="track-lc" aria-hidden="true"></span>
+                  <span class="state-text-lc">Weekly summary email</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="card-lc" style="border-color:#EFC7C1;">
+              <h4 class="mb-2" style="color:var(--danger);">Danger Zone</h4>
+              <p class="text-muted-lc" style="font-size:var(--fs-sm);">These actions are disabled in this demo build.</p>
+              <button class="btn-lc btn-outline-lc" disabled>Reset Demo Data</button>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../js/mock-data.js"></script>
+  <script src="../../js/storage.js"></script>
+  <script src="../../js/auth.js"></script>
+  <script src="../../js/maps.js"></script>
+  <script src="../../js/main.js"></script>
+  <script src="../../js/navigation.js"></script>
+  <script>
+    LCAuth.guard("admin", "../../");
+    LCNav.mountAdminShell({ base: "../../", active: "settings", pageTitle: "Settings" });
+
+    document.querySelectorAll('#main-content input[type="checkbox"]').forEach(input => {
+      input.addEventListener("change", () => {
+        LCUtils.showToast("Preference updated", "This demo setting isn't persisted yet.", "info");
+      });
+    });
+  </script>
+</body>
+</html>

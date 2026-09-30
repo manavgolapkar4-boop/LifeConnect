@@ -1,0 +1,83 @@
+/* ==========================================================================
+   LifeConnect — Design Tokens
+   Single source of truth for color, type, spacing and radius.
+   Do not hardcode these values elsewhere — reference the variables.
+   ========================================================================== */
+
+:root {
+  /* ---- Color: brand ---- */
+  --primary: #B4182F;         /* deep blood crimson — branding, key actions */
+  --primary-dark: #8A1224;    /* hover/active state for primary */
+  --primary-tint: #FBE9EC;    /* soft background tint for primary accents */
+  --secondary: #0F2540;       /* deep navy — headings, secondary UI */
+  --secondary-tint: #E8EDF3;
+
+  /* ---- Color: surfaces ---- */
+  --background: #F7F8FA;
+  --surface: #FFFFFF;
+  --surface-alt: #F1F3F6;
+
+  /* ---- Color: text ---- */
+  --text: #1A2233;
+  --muted: #6B7488;
+  --on-primary: #FFFFFF;
+  --on-secondary: #FFFFFF;
+
+  /* ---- Color: status ---- */
+  --success: #1E8E5A;
+  --success-tint: #E4F5EC;
+  --warning: #C97A1F;
+  --warning-tint: #FBF0E1;
+  --danger: #C0392B;
+  --danger-tint: #FBEAE8;
+  --inactive: #9AA2B1;
+  --inactive-tint: #EEF0F3;
+
+  /* ---- Structure ---- */
+  --border: #E3E6EC;
+  --border-strong: #C7CCD6;
+
+  /* ---- Typography ---- */
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --fs-xs: 0.8125rem;
+  --fs-sm: 0.9375rem;
+  --fs-base: 1rem;
+  --fs-md: 1.125rem;
+  --fs-lg: 1.375rem;
+  --fs-xl: 1.75rem;
+  --fs-2xl: 2.25rem;
+  --fs-3xl: 3rem;
+
+  /* ---- Spacing (8px scale) ---- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+
+  /* ---- Shape ---- */
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  /* ---- Elevation (used sparingly — hairline borders are the default) ---- */
+  --shadow-sm: 0 1px 2px rgba(15, 37, 64, 0.06);
+  --shadow-md: 0 8px 24px rgba(15, 37, 64, 0.10);
+  --shadow-lg: 0 16px 40px rgba(15, 37, 64, 0.14);
+
+  /* ---- Motion ---- */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 150ms;
+  --duration: 250ms;
+
+  /* ---- Layout ---- */
+  --container-max: 1200px;
+  --navbar-height: 76px;
+}

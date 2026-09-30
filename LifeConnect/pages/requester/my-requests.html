@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>My Requests — LifeConnect</title>
+
+  <meta
+    name="description"
+    content="Track the status of your blood requests."
+  />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- Bootstrap -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  >
+
+  <!-- Bootstrap Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+  >
+
+  <!-- LifeConnect CSS -->
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/global.css">
+  <link rel="stylesheet" href="../../css/components.css">
+  <link rel="stylesheet" href="../../css/responsive.css">
+  <link rel="stylesheet" href="../../css/dashboard.css">
+
+</head>
+
+
+<body>
+
+  <!-- Accessibility -->
+  <a href="#main-content" class="skip-link">
+    Skip to main content
+  </a>
+
+
+  <!-- Navbar -->
+  <div id="lc-navbar-root"></div>
+
+
+  <!-- =========================
+       MAIN CONTENT
+  ========================== -->
+
+  <main id="main-content">
+
+    <!-- Header -->
+    <div class="dash-header-lc">
+
+      <div class="container-lc">
+
+        <h1>
+          My Requests
+        </h1>
+
+        <p class="text-muted-lc mb-0">
+          Every blood request you've submitted, with live status.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- =========================
+         REQUEST SECTION
+    ========================== -->
+
+    <section>
+
+      <div class="container-lc">
+
+
+        <!-- =========================
+             FILTER TABS
+        ========================== -->
+
+        <div
+          class="lc-tabs"
+          id="requestTabs"
+        >
+
+          <button
+            type="button"
+            class="lc-tab active"
+            data-status=""
+          >
+            All
+          </button>
+
+          <button
+            type="button"
+            class="lc-tab"
+            data-status="Pending"
+          >
+            Pending
+          </button>
+
+          <button
+            type="button"
+            class="lc-tab"
+            data-status="Matching"
+          >
+            Matching
+          </button>
+
+          <button
+            type="button"
+            class="lc-tab"
+            data-status="Fulfilled"
+          >
+            Fulfilled
+          </button>
+
+          <button
+            type="button"
+            class="lc-tab"
+            data-status="Cancelled"
+          >
+            Cancelled
+          </button>
+
+        </div>
+
+
+        <!-- Request List -->
+        <div
+          id="requestListArea"
+          class="row gy-4"
+        ></div>
+
+
+        <!-- Empty State -->
+        <div
+          id="requestsEmptyState"
+          class="empty-state-lc d-none"
+        >
+
+          <div class="empty-icon-lc">
+            <i class="bi bi-inbox"></i>
+          </div>
+
+          <h4>
+            No requests in this view
+          </h4>
+
+          <p class="mb-3">
+            Try a different tab, or create your first request.
+          </p>
+
+          <a
+            href="create-request.html"
+            class="btn-lc btn-primary-lc btn-sm-lc"
+          >
+            Create Blood Request
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       REQUEST DETAILS MODAL
+  ========================== -->
+
+  <div
+    class="modal fade"
+    id="requestModal"
+    tabindex="-1"
+    aria-labelledby="requestModalLabel"
+    aria-hidden="true"
+  >
+
+    <div class="modal-dialog modal-dialog-centered">
+
+      <div class="modal-content">
+
+        <div class="modal-header">
+
+          <h5
+            class="modal-title"
+            id="requestModalLabel"
+          >
+            Request details
+          </h5>
+
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+
+        </div>
+
+
+        <div
+          class="modal-body"
+          id="requestModalBody"
+        ></div>
+
+
+        <div
+          class="modal-footer"
+          id="requestModalFooter"
+        ></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- Footer -->
+  <div id="lc-footer-root"></div>
+
+
+  <!-- Bootstrap JS -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  ></script>
+
+
+  <!-- Existing LifeConnect JS -->
+  <script src="../../js/mock-data.js"></script>
+  <script src="../../js/storage.js"></script>
+  <script src="../../js/auth.js"></script>
+  <script src="../../js/maps.js"></script>
+  <script src="../../js/main.js"></script>
+  <script src="../../js/navigation.js"></script>
+
+
+  <!-- =========================
+       REAL REQUESTER REQUESTS
+  ========================== -->
+
+  <script type="module">
+
+    import { auth } from "../../js/firebase-config.js";
+
+
+    // ==========================================
+    // AUTH + NAVIGATION
+    // ==========================================
+
+    LCAuth.guard(
+      "requester",
+      "../../"
+    );
+
+
+    LCNav.mount({
+
+      base: "../../",
+
+      active: "my-requests",
+
+      role: "requester"
+
+    });
+
+
+    // ==========================================
+    // BADGES
+    // ==========================================
+
+    const URGENCY_BADGE = {
+
+      Normal:
+        "badge-inactive-lc",
+
+      Urgent:
+        "badge-warning-lc",
+
+      Critical:
+        "badge-danger-lc"
+
+    };
+
+
+    const STATUS_BADGE = {
+
+      Pending:
+        "badge-warning-lc",
+
+      Matching:
+        "badge-blood-lc",
+
+      Fulfilled:
+        "badge-success-lc",
+
+      Cancelled:
+        "badge-inactive-lc"
+
+    };
+
+
+    // ==========================================
+    // ELEMENTS
+    // ==========================================
+
+    const listArea =
+      document.getElementById(
+        "requestListArea"
+      );
+
+
+    const emptyState =
+      document.getElementById(
+        "requestsEmptyState"
+      );
+
+
+    const requestModal =
+      new bootstrap.Modal(
+        document.getElementById(
+          "requestModal"
+        )
+      );
+
+
+    // ==========================================
+    // VARIABLES
+    // ==========================================
+
+    let activeTabStatus = "";
+
+    let currentRequests = [];
+
+
+    // ==========================================
+    // LOADING STATE
+    // ==========================================
+
+    function showLoading() {
+
+      emptyState.classList.add(
+        "d-none"
+      );
+
+
+      listArea.innerHTML = `
+
+        <div class="col-12">
+
+          <div class="text-muted-lc">
+
+            <i class="bi bi-arrow-repeat"></i>
+
+            Loading your requests...
+
+          </div>
+
+        </div>
+
+      `;
+
+    }
+
+
+    // ==========================================
+    // RENDER REQUEST CARDS
+    // ==========================================
+
+    function renderRequestCards(requests) {
+
+      const hasResults =
+        requests.length > 0;
+
+
+      emptyState.classList.toggle(
+        "d-none",
+        hasResults
+      );
+
+
+      if (!hasResults) {
+
+        listArea.innerHTML = "";
+
+        return;
+
+      }
+
+
+      listArea.innerHTML =
+        requests.map(
+          request => {
+
+            const urgency =
+              request.urgency ||
+              "Normal";
+
+
+            const status =
+              request.status ||
+              "Pending";
+
+
+            return `
+
+              <div class="col-md-6 col-xl-4">
+
+                <div
+                  class="card-lc card-lc-hover request-card-lc h-100"
+                >
+
+
+                  <!-- Card Header -->
+
+                  <div
+                    class="request-card-head"
+                  >
+
+                    <div>
+
+                      <h4
+                        style="font-size:var(--fs-md);"
+                      >
+                        ${request.id}
+                      </h4>
+
+
+                      <span
+                        class="badge-lc badge-blood-lc"
+                      >
+                        ${request.bloodGroup}
+                      </span>
+
+
+                      <span
+                        class="badge-lc ${
+                          URGENCY_BADGE[urgency]
+                          ||
+                          "badge-inactive-lc"
+                        }"
+                      >
+                        ${urgency}
+                      </span>
+
+                    </div>
+
+
+                    <span
+                      class="badge-lc ${
+                        STATUS_BADGE[status]
+                        ||
+                        "badge-inactive-lc"
+                      }"
+                    >
+                      ${status}
+                    </span>
+
+                  </div>
+
+
+                  <!-- Hospital -->
+
+                  <div
+                    class="request-meta-row-lc"
+                  >
+
+                    <i class="bi bi-hospital"></i>
+
+                    ${
+                      request.hospital ||
+                      "Hospital not specified"
+                    }
+
+                  </div>
+
+
+                  <!-- Required Date -->
+
+                  <div
+                    class="request-meta-row-lc"
+                  >
+
+                    <i
+                      class="bi bi-calendar-event"
+                    ></i>
+
+                    Required by
+
+                    ${
+                      request.requiredDate ||
+                      "Not specified"
+                    }
+
+                  </div>
+
+
+                  <!-- Units -->
+
+                  <div
+                    class="request-meta-row-lc"
+                  >
+
+                    <i
+                      class="bi bi-droplet"
+                    ></i>
+
+                    ${
+                      request.units ||
+                      0
+                    }
+
+                    unit${
+                      Number(request.units) > 1
+                        ? "s"
+                        : ""
+                    }
+
+                    required
+
+                  </div>
+
+
+                  <!-- Actions -->
+
+                  <div
+                    class="request-card-actions-lc"
+                  >
+
+                    <button
+                      class="btn-lc btn-outline-lc btn-sm-lc flex-fill"
+                      data-view-request="${request.id}"
+                    >
+                      View Details
+                    </button>
+
+
+                    ${
+                      status === "Pending" ||
+                      status === "Matching"
+
+                      ?
+
+                      `
+                      <button
+                        class="btn-lc btn-ghost-lc btn-sm-lc flex-fill"
+                        data-cancel-request="${request.id}"
+                      >
+                        Cancel
+                      </button>
+                      `
+
+                      :
+
+                      ""
+                    }
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            `;
+
+          }
+        ).join("");
+
+
+      // ========================================
+      // VIEW BUTTONS
+      // ========================================
+
+      listArea
+        .querySelectorAll(
+          "[data-view-request]"
+        )
+        .forEach(
+          button => {
+
+            button.addEventListener(
+              "click",
+              () => {
+
+                openRequestModal(
+                  button.dataset.viewRequest
+                );
+
+              }
+            );
+
+          }
+        );
+
+
+      // ========================================
+      // CANCEL BUTTONS
+      // ========================================
+
+      listArea
+        .querySelectorAll(
+          "[data-cancel-request]"
+        )
+        .forEach(
+          button => {
+
+            button.addEventListener(
+              "click",
+              () => {
+
+                cancelRequestFlow(
+                  button.dataset.cancelRequest
+                );
+
+              }
+            );
+
+          }
+        );
+
+    }
+
+
+    // ==========================================
+    // LOAD REAL REQUESTS FROM FASTAPI
+    // ==========================================
+
+    async function loadRequests() {
+
+      try {
+
+        showLoading();
+
+
+        // --------------------------------------
+        // Make sure Firebase user exists
+        // --------------------------------------
+
+        const user =
+          auth.currentUser;
+
+
+        if (!user) {
+
+          throw new Error(
+            "No requester is currently logged in."
+          );
+
+        }
+
+
+        console.log(
+          "Requester UID:",
+          user.uid
+        );
+
+
+        // --------------------------------------
+        // Get all requests from FastAPI
+        // --------------------------------------
+
+        const response =
+          await fetch(
+            "http://127.0.0.1:8000/api/requests/"
+          );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            `Request API returned ${response.status}`
+          );
+
+        }
+
+
+        const data =
+          await response.json();
+
+
+        if (!data.success) {
+
+          throw new Error(
+            "API could not load requests."
+          );
+
+        }
+
+
+        // --------------------------------------
+        // Only current requester's requests
+        // --------------------------------------
+
+        currentRequests =
+          (data.requests || []).filter(
+            request =>
+              request.requesterId === user.uid
+          );
+
+
+        console.log(
+          "Current requester's requests:",
+          currentRequests
+        );
+
+
+        // --------------------------------------
+        // Sort newest first
+        // --------------------------------------
+
+        currentRequests.sort(
+          (a, b) =>
+            String(b.id).localeCompare(
+              String(a.id)
+            )
+        );
+
+
+        // --------------------------------------
+        // Apply selected tab
+        // --------------------------------------
+
+        let filteredRequests =
+          currentRequests;
+
+
+        if (activeTabStatus) {
+
+          filteredRequests =
+            currentRequests.filter(
+              request =>
+                request.status ===
+                activeTabStatus
+            );
+
+        }
+
+
+        // --------------------------------------
+        // Render
+        // --------------------------------------
+
+        renderRequestCards(
+          filteredRequests
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "Error loading requests:",
+          error
+        );
+
+
+        emptyState.classList.add(
+          "d-none"
+        );
+
+
+        listArea.innerHTML = `
+
+          <div class="col-12">
+
+            <div
+              class="alert alert-danger"
+            >
+
+              <strong>
+                Unable to load requests.
+              </strong>
+
+              <br>
+
+              ${error.message}
+
+              <br><br>
+
+              Make sure your FastAPI server is
+              running:
+
+              <br>
+
+              <code>
+                python -m uvicorn main:app --reload
+              </code>
+
+            </div>
+
+          </div>
+
+        `;
+
+      }
+
+    }
+
+
+    // ==========================================
+    // OPEN REQUEST DETAILS
+    // ==========================================
+
+    function openRequestModal(id) {
+
+      const request =
+        currentRequests.find(
+          item =>
+            item.id === id
+        );
+
+
+      if (!request) {
+
+        console.error(
+          "Request not found:",
+          id
+        );
+
+        return;
+
+      }
+
+
+      const urgency =
+        request.urgency ||
+        "Normal";
+
+
+      const status =
+        request.status ||
+        "Pending";
+
+
+      // ----------------------------------------
+      // Modal title
+      // ----------------------------------------
+
+      document.getElementById(
+        "requestModalLabel"
+      ).textContent =
+        `Request ${request.id}`;
+
+
+      // ----------------------------------------
+      // Modal body
+      // ----------------------------------------
+
+      document.getElementById(
+        "requestModalBody"
+      ).innerHTML = `
+
+        <div
+          class="d-flex gap-2 mb-3 flex-wrap"
+        >
+
+          <span
+            class="badge-lc badge-blood-lc"
+          >
+            ${request.bloodGroup}
+          </span>
+
+
+          <span
+            class="badge-lc ${
+              URGENCY_BADGE[urgency]
+              ||
+              "badge-inactive-lc"
+            }"
+          >
+            ${urgency}
+          </span>
+
+
+          <span
+            class="badge-lc ${
+              STATUS_BADGE[status]
+              ||
+              "badge-inactive-lc"
+            }"
+          >
+            ${status}
+          </span>
+
+        </div>
+
+
+        <p class="mb-1">
+
+          <i class="bi bi-person"></i>
+
+          <strong>
+            Patient:
+          </strong>
+
+          ${
+            request.patientName ||
+            "Not specified"
+          }
+
+        </p>
+
+
+        <p class="mb-1">
+
+          <i class="bi bi-hospital"></i>
+
+          <strong>
+            Hospital:
+          </strong>
+
+          ${
+            request.hospital ||
+            "Not specified"
+          }
+
+        </p>
+
+
+        <p class="mb-1">
+
+          <i class="bi bi-geo-alt"></i>
+
+          <strong>
+            Location:
+          </strong>
+
+          ${
+            request.location ||
+            "Not specified"
+          },
+
+          ${
+            request.city ||
+            ""
+          }
+
+        </p>
+
+
+        <p class="mb-1">
+
+          <i class="bi bi-droplet"></i>
+
+          <strong>
+            Blood:
+          </strong>
+
+          ${request.bloodGroup}
+
+        </p>
+
+
+        <p class="mb-1">
+
+          <i class="bi bi-droplet-fill"></i>
+
+          <strong>
+            Units:
+          </strong>
+
+          ${request.units || 0}
+
+        </p>
+
+
+        <p class="mb-1">
+
+          <i
+            class="bi bi-calendar-event"
+          ></i>
+
+          <strong>
+            Required by:
+          </strong>
+
+          ${
+            request.requiredDate ||
+            "Not specified"
+          }
+
+        </p>
+
+
+        <p class="mb-1">
+
+          <i class="bi bi-telephone"></i>
+
+          <strong>
+            Contact:
+          </strong>
+
+          ${
+            request.contact ||
+            "Not specified"
+          }
+
+        </p>
+
+
+        ${
+          request.message
+
+          ?
+
+          `
+          <div class="mt-3">
+
+            <strong>
+              Message:
+            </strong>
+
+            <p class="form-hint-lc mb-0">
+              ${request.message}
+            </p>
+
+          </div>
+          `
+
+          :
+
+          ""
+        }
+
+      `;
+
+
+      // ----------------------------------------
+      // Modal footer
+      // ----------------------------------------
+
+      const footer =
+        document.getElementById(
+          "requestModalFooter"
+        );
+
+
+      if (
+        status === "Pending" ||
+        status === "Matching"
+      ) {
+
+        footer.innerHTML = `
+
+          <button
+            type="button"
+            class="btn-lc btn-outline-lc"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+
+
+          <button
+            type="button"
+            class="btn-lc btn-emergency-lc"
+            id="modalCancelBtn"
+          >
+            Cancel Request
+          </button>
+
+        `;
+
+
+        document
+          .getElementById(
+            "modalCancelBtn"
+          )
+          .addEventListener(
+            "click",
+            () => {
+
+              requestModal.hide();
+
+              cancelRequestFlow(
+                request.id
+              );
+
+            }
+          );
+
+
+      } else {
+
+        footer.innerHTML = `
+
+          <button
+            type="button"
+            class="btn-lc btn-outline-lc"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+
+        `;
+
+      }
+
+
+      requestModal.show();
+
+    }
+
+
+    // ==========================================
+    // CANCEL REQUEST
+    // ==========================================
+
+    async function cancelRequestFlow(id) {
+
+      const request =
+        currentRequests.find(
+          item =>
+            item.id === id
+        );
+
+
+      if (!request) {
+
+        return;
+
+      }
+
+
+      // ----------------------------------------
+      // Confirmation
+      // ----------------------------------------
+
+      const ok =
+        await LCUtils.confirmDialog({
+
+          title:
+            "Cancel this request?",
+
+          message:
+            `Request ${id} will be marked as cancelled. This can't be undone.`,
+
+          confirmLabel:
+            "Cancel Request",
+
+          variant:
+            "danger"
+
+        });
+
+
+      if (!ok) {
+
+        return;
+
+      }
+
+
+      try {
+
+        // --------------------------------------
+        // Update status through FastAPI
+        // --------------------------------------
+
+        const response =
+          await fetch(
+            `http://127.0.0.1:8000/api/requests/${encodeURIComponent(id)}/status?status=Cancelled`,
+            {
+              method: "PATCH"
+            }
+          );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            `Server returned ${response.status}`
+          );
+
+        }
+
+
+        const data =
+          await response.json();
+
+
+        if (!data.success) {
+
+          throw new Error(
+            data.message ||
+            "Unable to cancel request."
+          );
+
+        }
+
+
+        // --------------------------------------
+        // Success message
+        // --------------------------------------
+
+        LCUtils.showToast(
+          "Request cancelled",
+          `Request ${id} was cancelled.`,
+          "warning"
+        );
+
+
+        // --------------------------------------
+        // Reload from API
+        // --------------------------------------
+
+        await loadRequests();
+
+
+      } catch (error) {
+
+        console.error(
+          "Error cancelling request:",
+          error
+        );
+
+
+        LCUtils.showToast(
+          "Cancellation failed",
+          error.message,
+          "danger"
+        );
+
+      }
+
+    }
+
+
+    // ==========================================
+    // TAB FILTERS
+    // ==========================================
+
+    document
+      .querySelectorAll(
+        "#requestTabs .lc-tab"
+      )
+      .forEach(
+        tab => {
+
+          tab.addEventListener(
+            "click",
+            () => {
+
+              // Remove active
+              document
+                .querySelectorAll(
+                  "#requestTabs .lc-tab"
+                )
+                .forEach(
+                  item =>
+                    item.classList.remove(
+                      "active"
+                    )
+                );
+
+
+              // Activate clicked tab
+              tab.classList.add(
+                "active"
+              );
+
+
+              // Update status
+              activeTabStatus =
+                tab.dataset.status;
+
+
+              // Reload
+              loadRequests();
+
+            }
+          );
+
+        }
+      );
+
+
+    // ==========================================
+    // FIREBASE AUTH STATE
+    // ==========================================
+
+    auth.onAuthStateChanged(
+      async user => {
+
+        if (!user) {
+
+          console.warn(
+            "No Firebase requester logged in."
+          );
+
+          return;
+
+        }
+
+
+        console.log(
+          "Logged-in requester:",
+          user.uid
+        );
+
+
+        // Load real requests
+        await loadRequests();
+
+      }
+    );
+
+  </script>
+
+</body>
+</html>

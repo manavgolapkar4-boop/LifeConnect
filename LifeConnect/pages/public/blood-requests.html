@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Blood Requests | LifeConnect</title>
+
+  <!-- Bootstrap -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
+
+  <!-- Bootstrap Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+  >
+
+  <style>
+
+    body {
+      background: #f8f9fa;
+      font-family: Arial, sans-serif;
+    }
+
+    .navbar {
+      background: #b71c1c;
+    }
+
+    .navbar-brand,
+    .navbar-nav .nav-link {
+      color: white !important;
+    }
+
+    .page-header {
+      background: linear-gradient(135deg, #b71c1c, #e53935);
+      color: white;
+      padding: 45px 20px;
+      text-align: center;
+    }
+
+    .request-card {
+      border: none;
+      border-radius: 16px;
+      background: white;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+      transition: 0.2s;
+    }
+
+    .request-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    }
+
+    .blood-badge {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      background: #ffebee;
+      color: #c62828;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 17px;
+    }
+
+    .status-badge {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .status-pending {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .status-accepted {
+      background: #d1e7dd;
+      color: #0f5132;
+    }
+
+    .status-rejected {
+      background: #f8d7da;
+      color: #842029;
+    }
+
+    .status-completed {
+      background: #cff4fc;
+      color: #055160;
+    }
+
+    .urgency-emergency {
+      color: #c62828;
+      font-weight: bold;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 70px 20px;
+      color: #777;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 60px;
+    }
+
+    .request-detail-box {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 10px;
+    }
+
+    .request-detail-label {
+      font-size: 12px;
+      color: #777;
+      margin-bottom: 3px;
+    }
+
+    .request-detail-value {
+      font-weight: 600;
+      color: #333;
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="navbar navbar-expand-lg">
+
+  <div class="container">
+
+    <a class="navbar-brand fw-bold" href="#">
+      🩸 LifeConnect
+    </a>
+
+    <div class="navbar-nav ms-auto">
+
+      <a class="nav-link" href="find-blood.html">
+        Find Blood
+      </a>
+
+      <a
+        class="nav-link active"
+        href="blood-requests.html"
+      >
+        Blood Requests
+      </a>
+
+    </div>
+
+  </div>
+
+</nav>
+
+
+
+<!-- =========================
+     PAGE HEADER
+========================= -->
+
+<section class="page-header">
+
+  <div class="container">
+
+    <h1 class="fw-bold">
+      Blood Requests
+    </h1>
+
+    <p class="mb-0">
+      View and manage blood requests
+    </p>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================
+     REQUESTS
+========================= -->
+
+<div class="container py-5">
+
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+      <h3 class="fw-bold mb-1">
+        All Requests
+      </h3>
+
+      <p class="text-muted mb-0">
+        Requests received through LifeConnect
+      </p>
+
+    </div>
+
+
+    <button
+      class="btn btn-outline-danger"
+      onclick="loadRequests()"
+    >
+
+      <i class="bi bi-arrow-clockwise"></i>
+
+      Refresh
+
+    </button>
+
+  </div>
+
+
+
+  <!-- REQUEST CONTAINER -->
+
+  <div id="requestsContainer">
+
+    <div class="loading">
+
+      <div class="spinner-border text-danger"></div>
+
+      <p class="mt-3">
+        Loading blood requests...
+      </p>
+
+    </div>
+
+  </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     REQUEST DETAILS MODAL
+========================= -->
+
+<div
+  class="modal fade"
+  id="requestDetailsModal"
+  tabindex="-1"
+  aria-labelledby="requestDetailsModalLabel"
+  aria-hidden="true"
+>
+
+  <div class="modal-dialog modal-dialog-centered">
+
+    <div class="modal-content">
+
+
+      <!-- MODAL HEADER -->
+
+      <div class="modal-header">
+
+        <div>
+
+          <h5
+            class="modal-title fw-bold"
+            id="requestDetailsModalLabel"
+          >
+            Blood Request
+          </h5>
+
+          <small
+            class="text-muted"
+            id="modalRequestId"
+          ></small>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+
+      </div>
+
+
+
+      <!-- MODAL BODY -->
+
+      <div class="modal-body">
+
+
+        <!-- REQUESTER -->
+
+        <div class="request-detail-box">
+
+          <div class="request-detail-label">
+            Requester
+          </div>
+
+          <div
+            class="request-detail-value"
+            id="modalRequester"
+          >
+          </div>
+
+        </div>
+
+
+        <div class="row">
+
+
+          <!-- BLOOD GROUP -->
+
+          <div class="col-6">
+
+            <div class="request-detail-box">
+
+              <div class="request-detail-label">
+                Blood Group
+              </div>
+
+              <div
+                class="request-detail-value"
+                id="modalBloodGroup"
+              >
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- UNITS -->
+
+          <div class="col-6">
+
+            <div class="request-detail-box">
+
+              <div class="request-detail-label">
+                Units Required
+              </div>
+
+              <div
+                class="request-detail-value"
+                id="modalUnits"
+              >
+              </div>
+
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+
+        <!-- HOSPITAL -->
+
+        <div class="request-detail-box">
+
+          <div class="request-detail-label">
+            Hospital
+          </div>
+
+          <div
+            class="request-detail-value"
+            id="modalHospital"
+          >
+          </div>
+
+        </div>
+
+
+
+        <!-- CITY -->
+
+        <div class="request-detail-box">
+
+          <div class="request-detail-label">
+            City
+          </div>
+
+          <div
+            class="request-detail-value"
+            id="modalCity"
+          >
+          </div>
+
+        </div>
+
+
+
+        <!-- URGENCY -->
+
+        <div class="request-detail-box">
+
+          <div class="request-detail-label">
+            Urgency
+          </div>
+
+          <div
+            class="request-detail-value"
+            id="modalUrgency"
+          >
+          </div>
+
+        </div>
+
+
+
+        <!-- CURRENT STATUS -->
+
+        <div class="request-detail-box">
+
+          <div class="request-detail-label">
+            Current Status
+          </div>
+
+          <div id="modalCurrentStatus">
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+
+      <!-- MODAL FOOTER -->
+
+      <div class="modal-footer">
+
+
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          id="rejectRequestBtn"
+        >
+
+          <i class="bi bi-x-circle"></i>
+
+          Reject
+
+        </button>
+
+
+        <button
+          type="button"
+          class="btn btn-success"
+          id="acceptRequestBtn"
+        >
+
+          <i class="bi bi-check-circle"></i>
+
+          Accept
+
+        </button>
+
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          id="completeRequestBtn"
+        >
+
+          <i class="bi bi-check2-all"></i>
+
+          Completed
+
+        </button>
+
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- Bootstrap JS -->
+
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
+
+
+<script>
+
+
+/* ==========================================
+   API
+========================================== */
+
+const API_URL =
+  "http://127.0.0.1:8000/api/requests/";
+
+
+
+/* ==========================================
+   MODAL
+========================================== */
+
+const requestModalElement =
+  document.getElementById(
+    "requestDetailsModal"
+  );
+
+
+const requestModal =
+  new bootstrap.Modal(
+    requestModalElement
+  );
+
+
+let selectedRequest = null;
+
+
+
+/* ==========================================
+   LOAD BLOOD REQUESTS
+========================================== */
+
+async function loadRequests() {
+
+  const container =
+    document.getElementById(
+      "requestsContainer"
+    );
+
+
+  container.innerHTML = `
+
+    <div class="loading">
+
+      <div class="spinner-border text-danger"></div>
+
+      <p class="mt-3">
+        Loading blood requests...
+      </p>
+
+    </div>
+
+  `;
+
+
+  try {
+
+    const response =
+      await fetch(API_URL);
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "Failed to load requests"
+      );
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    const requests =
+      data.requests || [];
+
+
+    if (requests.length === 0) {
+
+      container.innerHTML = `
+
+        <div class="empty-state">
+
+          <i
+            class="bi bi-inbox"
+            style="font-size:50px;"
+          ></i>
+
+          <h4 class="mt-3">
+            No Blood Requests
+          </h4>
+
+          <p>
+            There are currently no blood requests.
+          </p>
+
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+
+    container.innerHTML =
+      requests
+        .map(request =>
+          createRequestCard(request)
+        )
+        .join("");
+
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Error loading requests:",
+      error
+    );
+
+
+    container.innerHTML = `
+
+      <div class="alert alert-danger">
+
+        <i class="bi bi-exclamation-triangle"></i>
+
+        Unable to load blood requests.
+
+        <br>
+
+        Make sure the FastAPI backend
+        is running.
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+
+/* ==========================================
+   CREATE REQUEST CARD
+========================================== */
+
+function createRequestCard(request) {
+
+
+  const status =
+    request.status || "Pending";
+
+
+  const urgency =
+    request.urgency || "Normal";
+
+
+  let statusClass =
+    "status-pending";
+
+
+  if (status === "Accepted") {
+
+    statusClass =
+      "status-accepted";
+
+  }
+
+  else if (status === "Rejected") {
+
+    statusClass =
+      "status-rejected";
+
+  }
+
+  else if (status === "Completed") {
+
+    statusClass =
+      "status-completed";
+
+  }
+
+
+  const urgencyClass =
+    urgency === "Emergency"
+      ? "urgency-emergency"
+      : "";
+
+
+  return `
+
+    <div class="request-card p-4">
+
+      <div class="row align-items-center">
+
+
+        <!-- BLOOD GROUP -->
+
+        <div class="col-md-1 mb-3 mb-md-0">
+
+          <div class="blood-badge">
+
+            ${request.bloodGroup || "--"}
+
+          </div>
+
+        </div>
+
+
+
+        <!-- REQUEST DETAILS -->
+
+        <div class="col-md-7">
+
+          <h5 class="fw-bold mb-2">
+
+            ${request.requesterName || "Unknown"}
+
+          </h5>
+
+
+          <div class="text-muted">
+
+
+            <div class="mb-1">
+
+              <i class="bi bi-hospital"></i>
+
+              ${request.hospital || "Not specified"}
+
+            </div>
+
+
+            <div class="mb-1">
+
+              <i class="bi bi-geo-alt"></i>
+
+              ${request.city || "Not specified"}
+
+            </div>
+
+
+            <div class="mb-1">
+
+              <i class="bi bi-droplet"></i>
+
+              ${request.units || 1}
+
+              unit(s) required
+
+            </div>
+
+
+            <div class="${urgencyClass}">
+
+              <i class="bi bi-exclamation-circle"></i>
+
+              ${urgency}
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+
+
+        <!-- STATUS -->
+
+        <div
+          class="col-md-2 text-md-center mb-3 mb-md-0"
+        >
+
+          <span
+            class="status-badge ${statusClass}"
+          >
+
+            ${status}
+
+          </span>
+
+        </div>
+
+
+
+        <!-- VIEW BUTTON -->
+
+        <div
+          class="col-md-2 text-md-end"
+        >
+
+          <button
+            class="btn btn-sm btn-outline-danger"
+            onclick="viewRequest('${request.id}')"
+          >
+
+            <i class="bi bi-eye"></i>
+
+            View
+
+          </button>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+
+/* ==========================================
+   VIEW REQUEST
+========================================== */
+
+async function viewRequest(requestId) {
+
+  try {
+
+
+    const response =
+      await fetch(API_URL);
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "Failed to load request"
+      );
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    const request =
+      (data.requests || []).find(
+        item =>
+          String(item.id) ===
+          String(requestId)
+      );
+
+
+    if (!request) {
+
+      alert(
+        "Request not found."
+      );
+
+      return;
+
+    }
+
+
+    /* Store selected request */
+
+    selectedRequest =
+      request;
+
+
+    /* Fill modal */
+
+    document.getElementById(
+      "modalRequestId"
+    ).textContent =
+      "Request ID: " +
+      request.id;
+
+
+    document.getElementById(
+      "modalRequester"
+    ).textContent =
+      request.requesterName ||
+      "Unknown";
+
+
+    document.getElementById(
+      "modalBloodGroup"
+    ).textContent =
+      request.bloodGroup ||
+      "--";
+
+
+    document.getElementById(
+      "modalUnits"
+    ).textContent =
+      request.units ||
+      "1";
+
+
+    document.getElementById(
+      "modalHospital"
+    ).textContent =
+      request.hospital ||
+      "Not specified";
+
+
+    document.getElementById(
+      "modalCity"
+    ).textContent =
+      request.city ||
+      "Not specified";
+
+
+    document.getElementById(
+      "modalUrgency"
+    ).textContent =
+      request.urgency ||
+      "Normal";
+
+
+    showModalStatus(
+      request.status ||
+      "Pending"
+    );
+
+
+    /* Show modal */
+
+    requestModal.show();
+
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Error opening request:",
+      error
+    );
+
+
+    alert(
+      "Unable to open blood request."
+    );
+
+  }
+
+}
+
+
+
+/* ==========================================
+   SHOW CURRENT STATUS
+========================================== */
+
+function showModalStatus(status) {
+
+
+  let statusClass =
+    "status-pending";
+
+
+  if (status === "Accepted") {
+
+    statusClass =
+      "status-accepted";
+
+  }
+
+  else if (status === "Rejected") {
+
+    statusClass =
+      "status-rejected";
+
+  }
+
+  else if (status === "Completed") {
+
+    statusClass =
+      "status-completed";
+
+  }
+
+
+  document.getElementById(
+    "modalCurrentStatus"
+  ).innerHTML = `
+
+    <span class="status-badge ${statusClass}">
+
+      ${status}
+
+    </span>
+
+  `;
+
+
+}
+
+
+
+/* ==========================================
+   UPDATE REQUEST STATUS
+========================================== */
+
+async function updateRequestStatus(
+  newStatus
+) {
+
+
+  if (!selectedRequest) {
+
+    return;
+
+  }
+
+
+  try {
+
+
+    const response =
+      await fetch(
+
+        `http://127.0.0.1:8000/api/requests/${selectedRequest.id}/status?status=${encodeURIComponent(newStatus)}`,
+
+        {
+
+          method: "PATCH"
+
+        }
+
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "Failed to update request status"
+      );
+
+    }
+
+
+    const result =
+      await response.json();
+
+
+    console.log(
+      "Status updated:",
+      result
+    );
+
+
+    /* Update selected request locally */
+
+    selectedRequest.status =
+      newStatus;
+
+
+    /* Update modal */
+
+    showModalStatus(
+      newStatus
+    );
+
+
+    /* Close modal */
+
+    requestModal.hide();
+
+
+    /* Reload requests */
+
+    await loadRequests();
+
+
+    alert(
+      `Request status changed to ${newStatus}`
+    );
+
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Error updating request status:",
+      error
+    );
+
+
+    alert(
+      "Unable to update request status."
+    );
+
+  }
+
+}
+
+
+
+/* ==========================================
+   BUTTON EVENTS
+========================================== */
+
+document
+  .getElementById(
+    "acceptRequestBtn"
+  )
+  .addEventListener(
+    "click",
+    function() {
+
+      updateRequestStatus(
+        "Accepted"
+      );
+
+    }
+  );
+
+
+document
+  .getElementById(
+    "rejectRequestBtn"
+  )
+  .addEventListener(
+    "click",
+    function() {
+
+      updateRequestStatus(
+        "Rejected"
+      );
+
+    }
+  );
+
+
+document
+  .getElementById(
+    "completeRequestBtn"
+  )
+  .addEventListener(
+    "click",
+    function() {
+
+      updateRequestStatus(
+        "Completed"
+      );
+
+    }
+  );
+
+
+
+/* ==========================================
+   INITIAL LOAD
+========================================== */
+
+loadRequests();
+
+
+</script>
+
+
+</body>
+</html>

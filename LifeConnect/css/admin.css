@@ -1,0 +1,165 @@
+/* ==========================================================================
+   LifeConnect — Admin Shell Styles
+   Sidebar + topbar layout for the Admin section only (Phase 4). Built on
+   the existing tokens — no new color system, just a different structure
+   than the public/donor/requester top-navbar pages.
+   ========================================================================== */
+
+.lc-admin-body {
+  background-color: var(--background);
+}
+
+.lc-admin-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Sidebar                                                                  */
+/* ---------------------------------------------------------------------- */
+.lc-admin-sidebar {
+  width: 260px;
+  flex-shrink: 0;
+  background-color: var(--secondary);
+  color: #C9D2E0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+.lc-admin-sidebar-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--space-5) var(--space-4);
+}
+.lc-admin-brand { color: #fff; margin-bottom: var(--space-2); }
+.lc-admin-brand:hover { color: #fff; }
+.lc-admin-role-tag {
+  display: inline-block;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: #9FB0CC;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: var(--space-5);
+}
+.lc-admin-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+.lc-admin-nav a {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 0.7rem 0.75rem;
+  border-radius: var(--radius-sm);
+  color: #C9D2E0;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+}
+.lc-admin-nav a i { font-size: 1.05rem; width: 20px; text-align: center; }
+.lc-admin-nav a:hover { background-color: #1A2E4A; color: #fff; }
+.lc-admin-nav a[aria-current="page"] {
+  background-color: var(--primary);
+  color: #fff;
+}
+.lc-admin-logout {
+  margin-top: var(--space-5);
+  border-color: #3A4E6A !important;
+  color: #C9D2E0 !important;
+}
+.lc-admin-logout:hover { background-color: #1A2E4A; color: #fff !important; }
+
+/* ---------------------------------------------------------------------- */
+/* Content column + topbar                                                 */
+/* ---------------------------------------------------------------------- */
+.lc-admin-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.lc-admin-topbar {
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.lc-admin-topbar-inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+}
+.lc-admin-page-title {
+  font-size: var(--fs-lg);
+  margin: 0;
+  flex: 1;
+}
+.lc-admin-sidebar-toggle {
+  display: none;
+  background: none;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: var(--secondary);
+}
+.lc-admin-main {
+  padding: var(--space-6) var(--space-5);
+  flex: 1;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Responsive: sidebar becomes an off-canvas drawer                        */
+/* ---------------------------------------------------------------------- */
+@media (max-width: 991.98px) {
+  .lc-admin-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1040;
+    transform: translateX(-100%);
+    transition: transform var(--duration) var(--ease);
+    box-shadow: var(--shadow-lg);
+  }
+  .lc-admin-shell.sidebar-open .lc-admin-sidebar {
+    transform: translateX(0);
+  }
+  .lc-admin-shell.sidebar-open::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 37, 64, 0.45);
+    z-index: 1030;
+  }
+  .lc-admin-sidebar-toggle { display: inline-flex; }
+  .lc-admin-main { padding: var(--space-5) var(--space-4); }
+}
+
+@media (max-width: 575.98px) {
+  .lc-admin-page-title { font-size: var(--fs-md); }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Admin overview stat cards + tables reuse .stat-icon-card-lc / .table-lc
+   from dashboard.css / components.css — only admin-specific pieces below. */
+/* ---------------------------------------------------------------------- */
+.admin-toolbar-lc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: flex-end;
+  margin-bottom: var(--space-4);
+}
+.admin-toolbar-lc .form-control-lc,
+.admin-toolbar-lc .form-select-lc {
+  min-width: 180px;
+}

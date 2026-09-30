@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Donor Dashboard — LifeConnect</title>
+
+  <meta
+    name="description"
+    content="Manage your donor availability, view stats and recent activity."
+  >
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- Bootstrap -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  >
+
+  <!-- Bootstrap Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+  >
+
+  <!-- LifeConnect CSS -->
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/global.css">
+  <link rel="stylesheet" href="../../css/components.css">
+  <link rel="stylesheet" href="../../css/responsive.css">
+  <link rel="stylesheet" href="../../css/dashboard.css">
+</head>
+
+
+<body>
+
+  <!-- Skip Link -->
+  <a href="#main-content" class="skip-link">
+    Skip to main content
+  </a>
+
+
+  <!-- Navbar -->
+  <div id="lc-navbar-root"></div>
+
+
+  <!-- =====================================================
+       MAIN CONTENT
+  ====================================================== -->
+
+  <main id="main-content">
+
+
+    <!-- ===================================================
+         DASHBOARD HEADER
+    ==================================================== -->
+
+    <div class="dash-header-lc">
+
+      <div class="container-lc">
+
+        <span class="badge-lc mb-2" id="accountStatus">
+
+          <i class="bi bi-hourglass-split"></i>
+
+          Loading your profile…
+
+        </span>
+
+
+        <h1 id="welcomeHeading">
+          Welcome back, Donor
+        </h1>
+
+
+        <p class="text-muted-lc mb-0">
+          Your availability can help someone in need.
+        </p>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- ===================================================
+         DASHBOARD SECTION
+    ==================================================== -->
+
+    <section>
+
+      <div class="container-lc">
+
+
+        <!-- =================================================
+             AVAILABILITY
+        ================================================== -->
+
+        <div class="row gy-4 mb-2">
+
+
+          <!-- Donor Availability -->
+
+          <div class="col-md-6">
+
+            <div
+              class="card-lc availability-card-lc"
+              id="availabilityCard"
+            >
+
+              <div>
+
+                <div class="availability-label-lc">
+                  Donor Availability
+                </div>
+
+                <p
+                  class="text-muted-lc mb-0"
+                  style="font-size:var(--fs-xs);"
+                >
+                  Show up in donor search results near you.
+                </p>
+
+              </div>
+
+
+              <label class="lc-switch">
+
+                <input
+                  type="checkbox"
+                  id="availabilityToggle"
+                >
+
+                <span
+                  class="track-lc"
+                  aria-hidden="true"
+                ></span>
+
+                <span
+                  class="state-text-lc"
+                  id="availabilityStateText"
+                >
+                  Available
+                </span>
+
+              </label>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- Emergency Availability -->
+
+          <div class="col-md-6">
+
+            <div
+              class="card-lc availability-card-lc"
+              id="emergencyCard"
+            >
+
+              <div>
+
+                <div class="availability-label-lc">
+                  Emergency Availability
+                </div>
+
+                <p
+                  class="text-muted-lc mb-0"
+                  style="font-size:var(--fs-xs);"
+                >
+                  Get notified first for critical emergency requests.
+                </p>
+
+              </div>
+
+
+              <label class="lc-switch">
+
+                <input
+                  type="checkbox"
+                  id="emergencyToggle"
+                >
+
+                <span
+                  class="track-lc"
+                  aria-hidden="true"
+                ></span>
+
+                <span
+                  class="state-text-lc"
+                  id="emergencyStateText"
+                >
+                  Available
+                </span>
+
+              </label>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             STATS
+        ================================================== -->
+
+        <div class="row gy-4 mt-1">
+
+
+          <!-- Total Donations -->
+
+          <div class="col-6 col-lg-3">
+
+            <div class="card-lc stat-icon-card-lc">
+
+              <span class="stat-icon-lc">
+                <i class="bi bi-droplet-fill"></i>
+              </span>
+
+              <div>
+
+                <span
+                  class="stat-value-lc"
+                  id="statTotalDonations"
+                >
+                  0
+                </span>
+
+                <span class="stat-label-lc">
+                  Total Donations
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- Requests Received -->
+
+          <div class="col-6 col-lg-3">
+
+            <div class="card-lc stat-icon-card-lc tone-secondary">
+
+              <span class="stat-icon-lc">
+                <i class="bi bi-inbox-fill"></i>
+              </span>
+
+              <div>
+
+                <span
+                  class="stat-value-lc"
+                  id="statRequestsReceived"
+                >
+                  0
+                </span>
+
+                <span class="stat-label-lc">
+                  Requests Received
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- Requests Accepted -->
+
+          <div class="col-6 col-lg-3">
+
+            <div class="card-lc stat-icon-card-lc tone-success">
+
+              <span class="stat-icon-lc">
+                <i class="bi bi-check-circle-fill"></i>
+              </span>
+
+              <div>
+
+                <span
+                  class="stat-value-lc"
+                  id="statRequestsAccepted"
+                >
+                  0
+                </span>
+
+                <span class="stat-label-lc">
+                  Requests Accepted
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- Successful Connections -->
+
+          <div class="col-6 col-lg-3">
+
+            <div class="card-lc stat-icon-card-lc tone-warning">
+
+              <span class="stat-icon-lc">
+                <i class="bi bi-heart-pulse-fill"></i>
+              </span>
+
+              <div>
+
+                <span
+                  class="stat-value-lc"
+                  id="statSuccessfulConnections"
+                >
+                  0
+                </span>
+
+                <span class="stat-label-lc">
+                  Successful Connections
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             QUICK ACTIONS + ACTIVITY + PROFILE
+        ================================================== -->
+
+        <div class="row gy-4 mt-1">
+
+
+          <!-- LEFT -->
+
+          <div class="col-lg-7">
+
+            <h4 class="mb-3">
+              Quick Actions
+            </h4>
+
+
+            <div
+              class="row g-3"
+              id="quickActions"
+            ></div>
+
+
+            <h4 class="mb-3 mt-5">
+              Recent Activity
+            </h4>
+
+
+            <div class="card-lc">
+
+              <ul
+                class="activity-list-lc"
+                id="activityList"
+              ></ul>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- RIGHT -->
+
+          <div class="col-lg-5">
+
+            <h4 class="mb-3">
+              Profile Status
+            </h4>
+
+
+            <div class="card-lc">
+
+
+              <div
+                class="d-flex justify-content-between align-items-center mb-2"
+              >
+
+                <span
+                  style="
+                    font-size:var(--fs-sm);
+                    font-weight:600;
+                    color:var(--secondary);
+                  "
+                >
+                  Profile completion
+                </span>
+
+
+                <span
+                  style="
+                    font-size:var(--fs-sm);
+                    font-weight:600;
+                    color:var(--success);
+                  "
+                  id="profileCompletionPct"
+                >
+                  0%
+                </span>
+
+              </div>
+
+
+              <div class="progress-lc mb-3">
+
+                <div
+                  class="bar-lc"
+                  id="profileCompletionBar"
+                  style="width:0%;"
+                ></div>
+
+              </div>
+
+
+              <p
+                class="text-muted-lc mb-3"
+                style="font-size:var(--fs-sm);"
+              >
+                A complete profile helps nearby requesters
+                find and trust you faster.
+              </p>
+
+
+              <a
+                href="profile.html"
+                class="btn-lc btn-outline-lc btn-block-lc btn-sm-lc"
+              >
+                Complete Profile
+              </a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+
+  <!-- Footer -->
+
+  <div id="lc-footer-root"></div>
+
+
+
+  <!-- =====================================================
+       JAVASCRIPT LIBRARIES
+  ====================================================== -->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+  <!--
+    IMPORTANT:
+    mock-data.js has been REMOVED.
+
+    This dashboard uses only:
+    Firebase login session
+    +
+    FastAPI
+    +
+    Firestore
+  -->
+
+  <script src="../../js/storage.js"></script>
+  <script src="../../js/auth.js"></script>
+  <script src="../../js/maps.js"></script>
+  <script src="../../js/main.js"></script>
+  <script src="../../js/navigation.js"></script>
+
+
+
+  <!-- =====================================================
+       REAL DONOR DASHBOARD
+  ====================================================== -->
+
+  <script>
+
+  (() => {
+
+    "use strict";
+
+
+    /* =====================================================
+       CONFIG
+    ====================================================== */
+
+    const API_BASE =
+      "http://127.0.0.1:8000/api";
+
+
+    /* =====================================================
+       HELPERS
+    ====================================================== */
+
+    const $ = id =>
+      document.getElementById(id);
+
+
+    /*
+      Escape API data before putting it inside HTML.
+    */
+
+    const esc = value =>
+
+      String(value ?? "")
+        .replace(/[&<>"']/g, character => ({
+
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;"
+
+        }[character]));
+
+
+    const isFilled = value =>
+
+      value !== undefined &&
+      value !== null &&
+      String(value).trim() !== "";
+
+
+    async function fetchJson(url, options = {}) {
+
+      const response =
+        await fetch(url, options);
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          `${url} returned ${response.status}`
+        );
+
+      }
+
+
+      return response.json();
+
+    }
+
+
+    function toast(title, message, type) {
+
+      if (
+        window.LCUtils &&
+        typeof LCUtils.showToast === "function"
+      ) {
+
+        LCUtils.showToast(
+          title,
+          message,
+          type
+        );
+
+      }
+
+    }
+
+
+    function setStatus(
+      icon,
+      text,
+      tone = ""
+    ) {
+
+      const element =
+        $("accountStatus");
+
+
+      element.className =
+        `badge-lc mb-2 ${tone}`.trim();
+
+
+      element.innerHTML =
+        `<i class="bi bi-${icon}"></i> ${esc(text)}`;
+
+    }
+
+
+
+    /* =====================================================
+       AUTHENTICATION
+    ====================================================== */
+
+    LCAuth.guard(
+      "donor",
+      "../../"
+    );
+
+
+    /* =====================================================
+       NAVIGATION
+    ====================================================== */
+
+    LCNav.mount({
+
+      base: "../../",
+
+      active: "dashboard",
+
+      role: "donor"
+
+    });
+
+
+
+    /* =====================================================
+       STATE
+    ====================================================== */
+
+    let donor = null;
+
+    let bloodRequests = [];
+
+    let saving = false;
+
+
+
+    /* =====================================================
+       ELEMENTS
+    ====================================================== */
+
+    const availabilityToggle =
+      $("availabilityToggle");
+
+
+    const availabilityStateText =
+      $("availabilityStateText");
+
+
+    const emergencyToggle =
+      $("emergencyToggle");
+
+
+    const emergencyStateText =
+      $("emergencyStateText");
+
+
+
+    /* =====================================================
+       QUICK ACTIONS
+    ====================================================== */
+
+    const actions = [
+
+      [
+        "#availabilityCard",
+        "bi-toggle-on",
+        "Update Availability"
+      ],
+
+      [
+        "blood-requests.html",
+        "bi-inbox",
+        "View Blood Requests"
+      ],
+
+      [
+        "donation-history.html",
+        "bi-clock-history",
+        "View Donation History"
+      ],
+
+      [
+        "profile.html",
+        "bi-pencil-square",
+        "Edit Profile"
+      ]
+
+    ];
+
+
+    $("quickActions").innerHTML =
+
+      actions
+        .map(
+          ([href, icon, label]) => `
+
+            <div class="col-sm-6">
+
+              <a
+                href="${href}"
+                class="quick-action-lc"
+              >
+
+                <span class="qa-icon-lc">
+
+                  <i class="bi ${icon}"></i>
+
+                </span>
+
+                <span class="qa-label-lc">
+
+                  ${label}
+
+                </span>
+
+              </a>
+
+            </div>
+
+          `
+        )
+        .join("");
+
+
+
+    /* =====================================================
+       GET LOGGED-IN USER
+    ====================================================== */
+
+    function getLoggedInUser() {
+
+      try {
+
+        /*
+          First use LifeConnect's LCStorage.
+        */
+
+        if (
+          window.LCStorage &&
+          typeof LCStorage.get === "function"
+        ) {
+
+          const session =
+            LCStorage.get("authSession");
+
+
+          console.log(
+            "🔐 LifeConnect auth session:",
+            session
+          );
+
+
+          if (
+            session &&
+            session.user &&
+            session.user.id
+          ) {
+
+            return session.user;
+
+          }
+
+        }
+
+
+        /*
+          Fallback for older sessions.
+        */
+
+        const raw =
+          localStorage.getItem(
+            "authSession"
+          );
+
+
+        if (raw) {
+
+          const session =
+            JSON.parse(raw);
+
+
+          if (
+            session &&
+            session.user &&
+            session.user.id
+          ) {
+
+            return session.user;
+
+          }
+
+        }
+
+
+      } catch (error) {
+
+        console.error(
+          "❌ Error reading login session:",
+          error
+        );
+
+      }
+
+
+      return null;
+
+    }
+
+
+
+    /* =====================================================
+       LOAD REAL DONOR
+    ====================================================== */
+
+    async function loadRealDonor() {
+
+      const user =
+        getLoggedInUser();
+
+
+      /*
+        No logged-in user.
+      */
+
+      if (!user) {
+
+        setStatus(
+          "exclamation-circle",
+          "Login session not found",
+          "badge-danger-lc"
+        );
+
+
+        console.error(
+          "❌ No logged-in user found."
+        );
+
+
+        return false;
+
+      }
+
+
+      console.log(
+        "👤 Logged-in Firebase UID:",
+        user.id
+      );
+
+
+      try {
+
+        /*
+          Get real donors from FastAPI.
+        */
+
+        const data =
+          await fetchJson(
+            `${API_BASE}/donors/`
+          );
+
+
+        const donors =
+          Array.isArray(data)
+            ? data
+            : (data.donors || []);
+
+
+        console.log(
+          "🩸 Donors returned from API:",
+          donors
+        );
+
+
+        /*
+          IMPORTANT:
+
+          Match the currently logged-in Firebase UID
+          with the donor's firebaseUid.
+
+          This prevents Rohan Mehta or another donor
+          from being displayed.
+        */
+
+        donor =
+          donors.find(
+            currentDonor =>
+              String(currentDonor.firebaseUid)
+              === String(user.id)
+          ) || null;
+
+
+        /*
+          Donor was not found.
+        */
+
+        if (!donor) {
+
+          setStatus(
+            "exclamation-circle",
+            "Donor profile not found",
+            "badge-danger-lc"
+          );
+
+
+          console.error(
+            "❌ Donor profile not found for Firebase UID:",
+            user.id
+          );
+
+
+          return false;
+
+        }
+
+
+        console.log(
+          "✅ REAL DONOR FOUND:",
+          donor
+        );
+
+
+        /*
+          Use the REAL donor name.
+        */
+
+        const fullName =
+          String(
+            donor.name || ""
+          ).trim();
+
+
+        const firstName =
+          fullName
+            ? fullName.split(/\s+/)[0]
+            : "Donor";
+
+
+        $("welcomeHeading").textContent =
+          `Welcome back, ${firstName}`;
+
+
+        /*
+          Account status.
+        */
+
+        setStatus(
+          "check-circle-fill",
+          `Logged in as ${fullName || "Donor"}`,
+          "badge-success-lc"
+        );
+
+
+        /*
+          Update availability switches.
+        */
+
+        syncAvailabilityUI();
+
+
+        /*
+          Update profile percentage.
+        */
+
+        renderProfileCompletion();
+
+
+        return true;
+
+      } catch (error) {
+
+        console.error(
+          "❌ Error loading real donor:",
+          error
+        );
+
+
+        setStatus(
+          "exclamation-circle",
+          "Unable to load donor profile",
+          "badge-danger-lc"
+        );
+
+
+        return false;
+
+      }
+
+    }
+
+
+
+    /* =====================================================
+       LOAD REAL BLOOD REQUESTS
+    ====================================================== */
+
+    async function loadBloodRequests() {
+
+      try {
+
+        const data =
+          await fetchJson(
+            `${API_BASE}/requests/`
+          );
+
+
+        bloodRequests =
+          Array.isArray(data)
+            ? data
+            : (data.requests || []);
+
+
+        return true;
+
+      } catch (error) {
+
+        console.error(
+          "❌ Error loading blood requests:",
+          error
+        );
+
+
+        bloodRequests = [];
+
+        return false;
+
+      }
+
+    }
+
+
+
+    /* =====================================================
+       GET REQUESTS BELONGING TO THIS DONOR
+    ====================================================== */
+
+    function getMyRequests() {
+
+      if (!donor) {
+
+        return [];
+
+      }
+
+
+      return bloodRequests.filter(
+
+        request =>
+
+          String(request.donorId)
+          === String(donor.id)
+
+      );
+
+    }
+
+
+
+    /* =====================================================
+       DASHBOARD STATS
+    ====================================================== */
+
+    function renderStats(requestsOk) {
+
+      const mine =
+        getMyRequests();
+
+
+      const count =
+        status =>
+          mine.filter(
+            request =>
+              request.status === status
+          ).length;
+
+
+      const show =
+        number =>
+          requestsOk
+            ? number
+            : "–";
+
+
+      /*
+        Completed requests represent successful donations
+        until a separate donation-history system is added.
+      */
+
+      $("statTotalDonations").textContent =
+        show(
+          count("Completed")
+        );
+
+
+      $("statRequestsReceived").textContent =
+        show(
+          mine.length
+        );
+
+
+      $("statRequestsAccepted").textContent =
+        show(
+          count("Accepted")
+        );
+
+
+      $("statSuccessfulConnections").textContent =
+        show(
+          count("Completed")
+        );
+
+    }
+
+
+
+    /* =====================================================
+       AVAILABILITY UI
+    ====================================================== */
+
+    function syncAvailabilityUI() {
+
+      if (!donor) {
+
+        return;
+
+      }
+
+
+      const available =
+        Boolean(
+          donor.available ?? true
+        );
+
+
+      const emergency =
+        Boolean(
+          donor.emergencyAvailable ?? false
+        );
+
+
+      availabilityToggle.checked =
+        available;
+
+
+      availabilityStateText.textContent =
+        available
+          ? "Available"
+          : "Not Available";
+
+
+      emergencyToggle.checked =
+        emergency;
+
+
+      emergencyStateText.textContent =
+        emergency
+          ? "Available for emergencies"
+          : "Not available";
+
+    }
+
+
+
+    /* =====================================================
+       DISABLE TOGGLES
+    ====================================================== */
+
+    function setTogglesDisabled(
+      disabled
+    ) {
+
+      availabilityToggle.disabled =
+        disabled;
+
+
+      emergencyToggle.disabled =
+        disabled;
+
+    }
+
+
+
+    /* =====================================================
+       UPDATE AVAILABILITY
+    ====================================================== */
+
+    async function updateAvailability() {
+
+      if (
+        !donor ||
+        saving
+      ) {
+
+        return;
+
+      }
+
+
+      saving = true;
+
+
+      setTogglesDisabled(
+        true
+      );
+
+
+      const next = {
+
+        available:
+          availabilityToggle.checked,
+
+        emergencyAvailable:
+          emergencyToggle.checked
+
+      };
+
+
+      try {
+
+        const data =
+          await fetchJson(
+
+            `${API_BASE}/donors/${encodeURIComponent(donor.id)}/availability`,
+
+            {
+
+              method: "PATCH",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              body:
+                JSON.stringify(next)
+
+            }
+
+          );
+
+
+        if (!data.success) {
+
+          throw new Error(
+            data.message ||
+            "Failed to update availability"
+          );
+
+        }
+
+
+        /*
+          Backend confirmed the change.
+        */
+
+        donor.available =
+          next.available;
+
+
+        donor.emergencyAvailable =
+          next.emergencyAvailable;
+
+
+        toast(
+
+          "Availability updated",
+
+          "Your availability has been saved successfully.",
+
+          "success"
+
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "❌ Availability update error:",
+          error
+        );
+
+
+        toast(
+
+          "Update failed",
+
+          "Your availability could not be saved. Please try again.",
+
+          "danger"
+
+        );
+
+      } finally {
+
+        syncAvailabilityUI();
+
+        setTogglesDisabled(
+          false
+        );
+
+        saving = false;
+
+      }
+
+    }
+
+
+    availabilityToggle.addEventListener(
+      "change",
+      updateAvailability
+    );
+
+
+    emergencyToggle.addEventListener(
+      "change",
+      updateAvailability
+    );
+
+
+
+    /* =====================================================
+       RECENT ACTIVITY
+    ====================================================== */
+
+    const STATUS_ICONS = {
+
+      Accepted:
+        "bi-check-circle-fill",
+
+      Declined:
+        "bi-x-circle-fill",
+
+      Completed:
+        "bi-heart-pulse-fill",
+
+      Pending:
+        "bi-hourglass-split",
+
+      Cancelled:
+        "bi-x-circle"
+
+    };
+
+
+    function renderActivity(
+      requestsOk
+    ) {
+
+      const list =
+        $("activityList");
+
+
+      const mine =
+        getMyRequests();
+
+
+      if (
+        !requestsOk ||
+        !mine.length
+      ) {
+
+        const text =
+          requestsOk
+            ? "No blood request activity yet."
+            : "Couldn't load your recent activity.";
+
+
+        const sub =
+          requestsOk
+            ? "Your incoming requests will appear here."
+            : "Refresh the page to try again.";
+
+
+        list.innerHTML = `
+
+          <li class="activity-item-lc">
+
+            <span class="activity-icon-lc">
+
+              <i class="bi bi-info-circle"></i>
+
+            </span>
+
+
+            <div>
+
+              <div class="activity-text-lc">
+                ${text}
+              </div>
+
+
+              <div class="activity-time-lc">
+                ${sub}
+              </div>
+
+            </div>
+
+          </li>
+
+        `;
+
+
+        return;
+
+      }
+
+
+      /*
+        Sort latest activity first.
+      */
+
+      const time =
+        request =>
+
+          Date.parse(
+            request.createdAt ||
+            request.created_at ||
+            ""
+          ) || 0;
+
+
+      const hasTimes =
+        mine.some(
+          request =>
+            time(request)
+        );
+
+
+      const sorted =
+        hasTimes
+
+          ? [...mine].sort(
+              (a, b) =>
+                time(b) - time(a)
+            )
+
+          : [...mine].reverse();
+
+
+      list.innerHTML =
+
+        sorted
+          .slice(0, 5)
+          .map(
+            request => `
+
+              <li class="activity-item-lc">
+
+                <span class="activity-icon-lc">
+
+                  <i class="bi ${
+                    STATUS_ICONS[request.status]
+                    || "bi-inbox"
+                  }"></i>
+
+                </span>
+
+
+                <div>
+
+                  <div class="activity-text-lc">
+
+                    Blood request
+                    ${esc(request.id)}
+                    —
+                    ${esc(request.status)}
+
+                  </div>
+
+
+                  <div class="activity-time-lc">
+
+                    ${esc(
+                      request.hospital ||
+                      "Hospital not specified"
+                    )}
+
+                  </div>
+
+                </div>
+
+              </li>
+
+            `
+          )
+          .join("");
+
+    }
+
+
+
+    /* =====================================================
+       PROFILE COMPLETION
+    ====================================================== */
+
+    function renderProfileCompletion() {
+
+      if (!donor) {
+
+        return;
+
+      }
+
+
+      /*
+        Only actual profile information is counted.
+      */
+
+      const fields = [
+
+        donor.name,
+
+        donor.bloodGroup,
+
+        donor.phone,
+
+        donor.city,
+
+        donor.area,
+
+        donor.email
+
+      ];
+
+
+      const completed =
+        fields.filter(
+          isFilled
+        ).length;
+
+
+      const percentage =
+        Math.round(
+          (completed /
+            fields.length) *
+          100
+        );
+
+
+      $("profileCompletionPct")
+        .textContent =
+        `${percentage}%`;
+
+
+      $("profileCompletionBar")
+        .style.width =
+        `${percentage}%`;
+
+    }
+
+
+
+    /* =====================================================
+       INITIALIZE DASHBOARD
+    ====================================================== */
+
+    async function initializeDashboard() {
+
+
+      /*
+        STEP 1
+        Find the real logged-in donor.
+      */
+
+      const donorLoaded =
+        await loadRealDonor();
+
+
+      if (!donorLoaded) {
+
+        return;
+
+      }
+
+
+      /*
+        STEP 2
+        Load real requests.
+      */
+
+      const requestsOk =
+        await loadBloodRequests();
+
+
+      /*
+        STEP 3
+        Render real statistics.
+      */
+
+      renderStats(
+        requestsOk
+      );
+
+
+      /*
+        STEP 4
+        Render real activity.
+      */
+
+      renderActivity(
+        requestsOk
+      );
+
+
+      /*
+        If requests failed.
+      */
+
+      if (!requestsOk) {
+
+        toast(
+
+          "Some data unavailable",
+
+          "Your blood requests couldn't be loaded.",
+
+          "danger"
+
+        );
+
+      }
+
+    }
+
+
+    /*
+      START DASHBOARD
+    */
+
+    initializeDashboard();
+
+
+  })();
+
+  </script>
+
+
+</body>
+</html>

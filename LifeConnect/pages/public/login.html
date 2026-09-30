@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Login — LifeConnect</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+  >
+
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/global.css">
+  <link rel="stylesheet" href="../../css/components.css">
+  <link rel="stylesheet" href="../../css/responsive.css">
+
+</head>
+
+
+<body>
+
+  <a href="#main-content" class="skip-link">
+    Skip to main content
+  </a>
+
+
+  <div id="lc-navbar-root"></div>
+
+
+  <main id="main-content">
+
+    <section style="padding-top:var(--space-8);">
+
+      <div class="container-lc" style="max-width:480px;">
+
+        <div class="text-center mb-5">
+
+          <h1 style="font-size:var(--fs-2xl);">
+            Welcome back
+          </h1>
+
+          <p class="text-muted-lc mb-0">
+            Log in to manage your donor or requester account.
+          </p>
+
+        </div>
+
+
+        <!-- LOGIN FORM -->
+
+        <form class="card-lc" id="loginForm" novalidate>
+
+          <div class="mb-3">
+
+            <label class="form-label-lc" for="loginEmail">
+              Email
+            </label>
+
+            <input
+              type="email"
+              class="form-control-lc"
+              id="loginEmail"
+              required
+            >
+
+            <div class="form-error-lc">
+              Enter a valid email address.
+            </div>
+
+          </div>
+
+
+          <div class="mb-3">
+
+            <label class="form-label-lc" for="loginPassword">
+              Password
+            </label>
+
+            <input
+              type="password"
+              class="form-control-lc"
+              id="loginPassword"
+              required
+              minlength="6"
+            >
+
+            <div class="form-error-lc">
+              Password must be at least 6 characters.
+            </div>
+
+          </div>
+
+
+          <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <div class="form-check">
+
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="rememberMe"
+              >
+
+              <label
+                class="form-check-label"
+                for="rememberMe"
+                style="font-size:var(--fs-sm);"
+              >
+                Remember me
+              </label>
+
+            </div>
+
+            <a href="#" style="font-size:var(--fs-sm);">
+              Forgot password?
+            </a>
+
+          </div>
+
+
+          <button
+            type="submit"
+            class="btn-lc btn-primary-lc btn-block-lc mb-3"
+          >
+            Login
+          </button>
+
+
+          <a
+            href="signup.html"
+            class="btn-lc btn-outline-lc btn-block-lc"
+          >
+            Create Account
+          </a>
+
+        </form>
+
+
+        <!-- DEMO ACCESS -->
+
+        <div
+          class="card-lc mt-4"
+          style="background-color:var(--surface-alt);border-style:dashed;"
+        >
+
+          <div class="d-flex align-items-start gap-2 mb-3">
+
+            <i
+              class="bi bi-info-circle-fill"
+              style="color:var(--secondary);"
+            ></i>
+
+            <div>
+
+              <strong style="font-size:var(--fs-sm);">
+                Demo access (no backend needed)
+              </strong>
+
+              <p class="form-hint-lc mb-0">
+                Prefer to skip signup? Preview a dashboard with mock data
+                instead — this stays separate from the real login above and
+                doesn't touch the backend.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="d-flex flex-wrap gap-2">
+
+            <button
+              class="btn-lc btn-outline-lc btn-sm-lc"
+              data-demo-role="donor"
+            >
+              Continue as Donor (Demo)
+            </button>
+
+            <button
+              class="btn-lc btn-outline-lc btn-sm-lc"
+              data-demo-role="requester"
+            >
+              Continue as Requester (Demo)
+            </button>
+
+            <button
+              class="btn-lc btn-outline-lc btn-sm-lc"
+              data-demo-role="admin"
+            >
+              Continue as Admin (Demo)
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <div id="lc-footer-root"></div>
+
+
+  <!-- BOOTSTRAP -->
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  ></script>
+
+
+  <!-- LIFE CONNECT JS -->
+
+  <script src="../../js/mock-data.js"></script>
+  <script src="../../js/storage.js"></script>
+  <script src="../../js/auth.js"></script>
+  <script src="../../js/maps.js"></script>
+  <script src="../../js/main.js"></script>
+  <script src="../../js/navigation.js"></script>
+
+
+  <!-- FIREBASE LOGIN + FIRESTORE -->
+
+  <script type="module">
+
+    import {
+      app,
+      auth
+    } from "../../js/firebase-config.js";
+
+
+    import {
+      signInWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+
+
+    import {
+      getFirestore,
+      doc,
+      getDoc
+    } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+
+    const db = getFirestore(app);
+
+
+    window.lifeConnectAuth = auth;
+
+    window.signInFirebaseUser =
+      signInWithEmailAndPassword;
+
+
+    window.lifeConnectFirestore =
+      db;
+
+    window.getFirestoreDocument =
+      getDoc;
+
+    window.firestoreDoc =
+      doc;
+
+  </script>
+
+
+  <!-- LOGIN LOGIC -->
+
+  <script>
+
+    LCNav.mount({
+      base: "../../",
+      active: ""
+    });
+
+
+    const loginForm =
+      document.getElementById("loginForm");
+
+
+    const loginSubmitBtn =
+      loginForm.querySelector('button[type="submit"]');
+
+
+    LCUtils.attachLiveValidation(loginForm);
+
+
+    /*
+      If the person arrived here through a route guard,
+      remember where they were headed.
+    */
+
+    const nextParam =
+      new URLSearchParams(window.location.search).get("next");
+
+
+    /*
+      ROLE REDIRECTION
+    */
+
+    function redirectAfterLogin(role) {
+
+      console.log("👤 User role:", role);
+
+
+      if (
+        nextParam &&
+        nextParam.startsWith("/pages/")
+      ) {
+
+        window.location.href =
+          "../../" +
+          nextParam.replace(/^\/+/, "");
+
+        return;
+
+      }
+
+
+      if (role === "donor") {
+
+        window.location.href =
+          "../donor/dashboard.html";
+
+      }
+
+      else if (role === "requester") {
+
+        window.location.href =
+          "../requester/dashboard.html";
+
+      }
+
+      else {
+
+        window.location.href =
+          "../../index.html";
+
+      }
+
+    }
+
+
+    /*
+      FIND USER ROLE
+    */
+
+    async function getUserRole(firebaseUid) {
+
+      console.log(
+        "🔎 Checking role for UID:",
+        firebaseUid
+      );
+
+
+      /*
+        FIRST:
+        Check users collection.
+
+        Requesters are stored here.
+      */
+
+      try {
+
+        const userRef =
+          window.firestoreDoc(
+            window.lifeConnectFirestore,
+            "users",
+            firebaseUid
+          );
+
+
+        const userSnapshot =
+          await window.getFirestoreDocument(userRef);
+
+
+        if (userSnapshot.exists()) {
+
+          const userData =
+            userSnapshot.data();
+
+
+          console.log(
+            "📄 User profile:",
+            userData
+          );
+
+
+          if (userData.role) {
+
+            return userData.role.toLowerCase();
+
+          }
+
+        }
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Error checking users collection:",
+          error
+        );
+
+      }
+
+
+      /*
+        SECOND:
+        If no requester profile was found,
+        check the donor collection through
+        the FastAPI backend.
+      */
+
+      try {
+
+        const response =
+          await fetch(
+            "http://127.0.0.1:8000/api/donors/"
+          );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            "Unable to load donors."
+          );
+
+        }
+
+
+        const result =
+          await response.json();
+
+
+        const donors =
+          result.donors || [];
+
+
+        const donor =
+          donors.find(
+            item =>
+              item.firebaseUid === firebaseUid
+          );
+
+
+        if (donor) {
+
+          console.log(
+            "🩸 Donor profile found:",
+            donor
+          );
+
+
+          if (donor.role) {
+
+            return donor.role.toLowerCase();
+
+          }
+
+
+          return "donor";
+
+        }
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Error checking donor collection:",
+          error
+        );
+
+      }
+
+
+      return null;
+
+    }
+
+
+    /*
+      REAL FIREBASE LOGIN
+    */
+
+    loginForm.addEventListener(
+      "submit",
+      async (e) => {
+
+        e.preventDefault();
+
+
+        /*
+          Validate form
+        */
+
+        if (!LCUtils.validateForm(loginForm)) {
+
+          LCUtils.showToast(
+            "Check your details",
+            "Please correct the highlighted fields.",
+            "danger"
+          );
+
+          return;
+
+        }
+
+
+        const email =
+          document
+            .getElementById("loginEmail")
+            .value
+            .trim();
+
+
+        const password =
+          document
+            .getElementById("loginPassword")
+            .value;
+
+
+        loginSubmitBtn.disabled = true;
+
+        loginSubmitBtn.textContent =
+          "Logging in…";
+
+
+        /*
+          Firebase authentication
+        */
+
+        let userCredential;
+
+
+        try {
+
+          userCredential =
+            await window.signInFirebaseUser(
+              window.lifeConnectAuth,
+              email,
+              password
+            );
+
+        }
+
+
+        catch (error) {
+
+          console.error(
+            "Firebase login error:",
+            error
+          );
+
+
+          loginSubmitBtn.disabled = false;
+
+          loginSubmitBtn.textContent =
+            "Login";
+
+
+          let message =
+            "Unable to login. Please check your details.";
+
+
+          if (
+            error.code ===
+              "auth/invalid-credential" ||
+
+            error.code ===
+              "auth/invalid-login-credentials"
+          ) {
+
+            message =
+              "Incorrect email or password.";
+
+          }
+
+
+          else if (
+            error.code ===
+              "auth/user-not-found"
+          ) {
+
+            message =
+              "No account found with this email.";
+
+          }
+
+
+          else if (
+            error.code ===
+              "auth/wrong-password"
+          ) {
+
+            message =
+              "Incorrect password.";
+
+          }
+
+
+          else if (
+            error.code ===
+              "auth/too-many-requests"
+          ) {
+
+            message =
+              "Too many attempts. Please try again later.";
+
+          }
+
+
+          LCUtils.showToast(
+            "Login failed",
+            message,
+            "danger"
+          );
+
+
+          return;
+
+        }
+
+
+        /*
+          Firebase login successful
+        */
+
+        loginSubmitBtn.disabled = false;
+
+        loginSubmitBtn.textContent =
+          "Login";
+
+
+        const firebaseUid =
+          userCredential.user.uid;
+
+
+        console.log(
+          "🔥 Firebase login successful"
+        );
+
+
+        console.log(
+          "🔥 Firebase UID:",
+          firebaseUid
+        );
+
+
+        console.log(
+          "🔥 Firebase Email:",
+          userCredential.user.email
+        );
+
+
+        /*
+          FIND ROLE
+        */
+
+        const role =
+          await getUserRole(firebaseUid);
+
+
+        console.log(
+          "👤 Final detected role:",
+          role
+        );
+
+        /*
+  Sync Firebase login with LifeConnect session
+  so the existing dashboard route guard recognizes
+  the logged-in user.
+*/
+
+LCStorage.set(
+  "authSession",
+  {
+    token: "firebase",
+    user: {
+      id: firebaseUid,
+      name: userCredential.user.displayName || "",
+      email: userCredential.user.email,
+      role: role
+    }
+  }
+);
+
+console.log(
+  "🔐 LifeConnect session created:",
+  LCStorage.get("authSession")
+);
+
+
+        /*
+          ROLE NOT FOUND
+        */
+
+        if (!role) {
+
+          LCUtils.showToast(
+            "Profile not found",
+            "Your account exists, but we could not find your donor/requester profile.",
+            "danger"
+          );
+
+          return;
+
+        }
+
+
+        /*
+          SUCCESS MESSAGE
+        */
+
+        const roleName =
+          role === "donor"
+            ? "Blood Donor"
+            : "Blood Requester";
+
+
+        LCUtils.showToast(
+          "Welcome back",
+          `Logged in as ${roleName}.`,
+          "success"
+        );
+
+
+        /*
+          REDIRECT BASED ON ROLE
+        */
+
+        setTimeout(() => {
+
+          redirectAfterLogin(role);
+
+        }, 600);
+
+      }
+    );
+
+
+    /*
+      DEMO LOGIN BUTTONS
+    */
+
+    document
+      .querySelectorAll("[data-demo-role]")
+      .forEach((btn) => {
+
+        btn.addEventListener(
+          "click",
+          () => {
+
+            const role =
+              btn.dataset.demoRole;
+
+
+            LCStorage.setDemoSession(role);
+
+
+            LCUtils.showToast(
+              "Demo session started",
+              `Continuing as ${role} (demo mode).`,
+              "success"
+            );
+
+
+            const destinations = {
+
+              donor:
+                "../donor/dashboard.html",
+
+              requester:
+                "../requester/dashboard.html",
+
+              admin:
+                "../admin/dashboard.html"
+
+            };
+
+
+            if (destinations[role]) {
+
+              setTimeout(() => {
+
+                window.location.href =
+                  destinations[role];
+
+              }, 600);
+
+            }
+
+          }
+        );
+
+      });
+
+  </script>
+
+
+</body>
+
+</html>

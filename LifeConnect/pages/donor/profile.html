@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>My Profile — LifeConnect</title>
+
+  <meta
+    name="description"
+    content="View and edit your donor profile."
+  />
+
+
+  <!-- Fonts -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <!-- Bootstrap -->
+
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  >
+
+
+  <!-- Bootstrap Icons -->
+
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+  >
+
+
+  <!-- LifeConnect CSS -->
+
+  <link
+    rel="stylesheet"
+    href="../../css/variables.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="../../css/global.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="../../css/components.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="../../css/responsive.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="../../css/dashboard.css"
+  >
+
+</head>
+
+
+<body>
+
+
+  <!-- Skip link -->
+
+  <a
+    href="#main-content"
+    class="skip-link"
+  >
+    Skip to main content
+  </a>
+
+
+  <!-- Navbar -->
+
+  <div id="lc-navbar-root"></div>
+
+
+
+  <!-- =====================================================
+       MAIN CONTENT
+  ====================================================== -->
+
+  <main id="main-content">
+
+
+    <!-- Header -->
+
+    <div class="dash-header-lc">
+
+      <div class="container-lc">
+
+        <h1>
+          My Profile
+        </h1>
+
+        <p class="text-muted-lc mb-0">
+          Keep your details accurate so nearby requesters
+          can reach you.
+        </p>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         PROFILE
+    ====================================================== -->
+
+    <section>
+
+      <div
+        class="container-lc"
+        style="max-width:800px;"
+      >
+
+
+        <!-- =================================================
+             PROFILE HEADER
+        ================================================== -->
+
+        <div class="card-lc mb-4">
+
+          <div class="profile-header-lc">
+
+
+            <!-- Avatar -->
+
+            <span
+              class="profile-avatar-lc"
+              id="profileAvatar"
+            >
+              --
+            </span>
+
+
+            <!-- Name -->
+
+            <div>
+
+              <h3
+                class="mb-1"
+                id="profileName"
+              >
+                Loading...
+              </h3>
+
+
+              <span
+                class="badge-lc badge-blood-lc"
+                id="profileBloodGroupBadge"
+              >
+                —
+              </span>
+
+            </div>
+
+
+            <!-- Edit -->
+
+            <button
+              type="button"
+              class="btn-lc btn-outline-lc ms-auto"
+              id="editToggleBtn"
+            >
+
+              <i class="bi bi-pencil-square"></i>
+
+              Edit Profile
+
+            </button>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             READ ONLY VIEW
+        ================================================== -->
+
+        <div
+          class="card-lc"
+          id="viewMode"
+        >
+
+          <dl
+            class="row profile-field-lc mb-0"
+          >
+
+
+            <!-- Name -->
+
+            <div class="col-sm-6">
+
+              <dt>
+                Full Name
+              </dt>
+
+              <dd id="vName">
+                —
+              </dd>
+
+            </div>
+
+
+            <!-- Blood Group -->
+
+            <div class="col-sm-6">
+
+              <dt>
+                Blood Group
+              </dt>
+
+              <dd id="vBloodGroup">
+                —
+              </dd>
+
+            </div>
+
+
+            <!-- Area -->
+
+            <div class="col-sm-6">
+
+              <dt>
+                Area / Locality
+              </dt>
+
+              <dd id="vArea">
+                —
+              </dd>
+
+            </div>
+
+
+            <!-- City -->
+
+            <div class="col-sm-6">
+
+              <dt>
+                City
+              </dt>
+
+              <dd id="vCity">
+                —
+              </dd>
+
+            </div>
+
+
+            <!-- Phone -->
+
+            <div class="col-sm-6">
+
+              <dt>
+                Phone
+              </dt>
+
+              <dd id="vPhone">
+                —
+              </dd>
+
+            </div>
+
+
+            <!-- Email -->
+
+            <div class="col-sm-6">
+
+              <dt>
+                Email
+              </dt>
+
+              <dd id="vEmail">
+                —
+              </dd>
+
+            </div>
+
+
+            <!-- Availability -->
+
+            <div class="col-sm-6">
+
+              <dt>
+                Availability
+              </dt>
+
+              <dd id="vAvailability">
+                —
+              </dd>
+
+            </div>
+
+
+            <!-- Emergency -->
+
+            <div class="col-sm-6">
+
+              <dt>
+                Emergency Availability
+              </dt>
+
+              <dd id="vEmergency">
+                —
+              </dd>
+
+            </div>
+
+
+            <!-- Last Donation -->
+
+            <div class="col-sm-6">
+
+              <dt>
+                Last Donation Date
+              </dt>
+
+              <dd id="vLastDonation">
+                —
+              </dd>
+
+            </div>
+
+
+            <!-- Registration -->
+
+            <div class="col-sm-6">
+
+              <dt>
+                Registration Date
+              </dt>
+
+              <dd id="vRegisteredOn">
+                —
+              </dd>
+
+            </div>
+
+          </dl>
+
+        </div>
+
+
+
+        <!-- =================================================
+             EDIT FORM
+        ================================================== -->
+
+        <form
+          class="card-lc d-none"
+          id="editForm"
+          novalidate
+        >
+
+
+          <div class="row gy-3">
+
+
+            <!-- Name -->
+
+            <div class="col-md-6">
+
+              <label
+                class="form-label-lc"
+                for="fName"
+              >
+                Full Name
+              </label>
+
+              <input
+                type="text"
+                class="form-control-lc"
+                id="fName"
+                required
+              >
+
+              <div class="form-error-lc">
+                Enter your full name.
+              </div>
+
+            </div>
+
+
+
+            <!-- Blood Group -->
+
+            <div class="col-md-6">
+
+              <label
+                class="form-label-lc"
+                for="fBloodGroup"
+              >
+                Blood Group
+              </label>
+
+              <select
+                class="form-select-lc"
+                id="fBloodGroup"
+                required
+              >
+
+                <option value="">
+                  Select blood group
+                </option>
+
+                <option value="A+">
+                  A+
+                </option>
+
+                <option value="A-">
+                  A-
+                </option>
+
+                <option value="B+">
+                  B+
+                </option>
+
+                <option value="B-">
+                  B-
+                </option>
+
+                <option value="AB+">
+                  AB+
+                </option>
+
+                <option value="AB-">
+                  AB-
+                </option>
+
+                <option value="O+">
+                  O+
+                </option>
+
+                <option value="O-">
+                  O-
+                </option>
+
+              </select>
+
+            </div>
+
+
+
+            <!-- Area -->
+
+            <div class="col-md-6">
+
+              <label
+                class="form-label-lc"
+                for="fArea"
+              >
+                Area / Locality
+              </label>
+
+              <input
+                type="text"
+                class="form-control-lc"
+                id="fArea"
+                required
+              >
+
+              <div class="form-error-lc">
+                Enter your area or locality.
+              </div>
+
+            </div>
+
+
+
+            <!-- City -->
+
+            <div class="col-md-6">
+
+              <label
+                class="form-label-lc"
+                for="fCity"
+              >
+                City
+              </label>
+
+              <input
+                type="text"
+                class="form-control-lc"
+                id="fCity"
+                required
+              >
+
+              <div class="form-error-lc">
+                Enter your city.
+              </div>
+
+            </div>
+
+
+
+            <!-- Phone -->
+
+            <div class="col-md-6">
+
+              <label
+                class="form-label-lc"
+                for="fPhone"
+              >
+                Phone
+              </label>
+
+              <input
+                type="tel"
+                class="form-control-lc"
+                id="fPhone"
+                pattern="[0-9]{10}"
+                required
+              >
+
+              <div class="form-error-lc">
+                Enter a valid 10-digit number.
+              </div>
+
+            </div>
+
+
+
+            <!-- Email -->
+
+            <div class="col-md-6">
+
+              <label
+                class="form-label-lc"
+                for="fEmail"
+              >
+                Email
+              </label>
+
+              <input
+                type="email"
+                class="form-control-lc"
+                id="fEmail"
+              >
+
+              <div class="form-hint-lc">
+                Email comes from your Firebase account.
+              </div>
+
+            </div>
+
+
+
+            <!-- Last Donation -->
+
+            <div class="col-md-6">
+
+              <label
+                class="form-label-lc"
+                for="fLastDonation"
+              >
+                Last Donation Date
+              </label>
+
+              <input
+                type="date"
+                class="form-control-lc"
+                id="fLastDonation"
+              >
+
+              <div class="form-hint-lc">
+                Leave blank if you haven't donated yet.
+              </div>
+
+            </div>
+
+          </div>
+
+
+
+          <hr
+            style="
+              border-color:var(--border);
+              margin:var(--space-5) 0;
+            "
+          >
+
+
+          <div class="d-flex gap-3 flex-wrap">
+
+
+            <button
+              type="submit"
+              class="btn-lc btn-primary-lc"
+              id="saveBtn"
+            >
+
+              <i class="bi bi-check-lg"></i>
+
+              Save Changes
+
+            </button>
+
+
+            <button
+              type="button"
+              class="btn-lc btn-outline-lc"
+              id="cancelEditBtn"
+            >
+
+              Cancel
+
+            </button>
+
+          </div>
+
+        </form>
+
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+
+  <!-- Footer -->
+
+  <div id="lc-footer-root"></div>
+
+
+
+  <!-- Bootstrap JS -->
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  ></script>
+
+
+
+  <!-- =====================================================
+       LIFE CONNECT SCRIPTS
+       
+       IMPORTANT:
+       mock-data.js IS REMOVED
+  ====================================================== -->
+
+  <script src="../../js/storage.js"></script>
+
+  <script src="../../js/auth.js"></script>
+
+  <script src="../../js/maps.js"></script>
+
+  <script src="../../js/main.js"></script>
+
+  <script src="../../js/navigation.js"></script>
+
+
+
+  <!-- =====================================================
+       REAL DONOR PROFILE
+  ====================================================== -->
+
+  <script>
+
+  (() => {
+
+    "use strict";
+
+
+    /* =====================================================
+       CONFIG
+    ====================================================== */
+
+    const API_BASE =
+      "http://127.0.0.1:8000/api";
+
+
+    /* =====================================================
+       AUTH GUARD
+    ====================================================== */
+
+    LCAuth.guard(
+      "donor",
+      "../../"
+    );
+
+
+    /* =====================================================
+       NAVIGATION
+    ====================================================== */
+
+    LCNav.mount({
+
+      base: "../../",
+
+      active: "profile",
+
+      role: "donor"
+
+    });
+
+
+
+    /* =====================================================
+       STATE
+    ====================================================== */
+
+    let currentDonor = null;
+
+    let currentUser = null;
+
+    let saving = false;
+
+
+
+    /* =====================================================
+       HELPERS
+    ====================================================== */
+
+    const $ = id =>
+      document.getElementById(id);
+
+
+    function escapeHtml(value) {
+
+      return String(value ?? "")
+        .replace(/[&<>"']/g, character => ({
+
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;"
+
+        }[character]));
+
+    }
+
+
+    async function fetchJson(
+      url,
+      options = {}
+    ) {
+
+      const response =
+        await fetch(
+          url,
+          options
+        );
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          `API error: ${response.status}`
+        );
+
+      }
+
+
+      return response.json();
+
+    }
+
+
+
+    /* =====================================================
+       GET LOGGED-IN USER
+    ====================================================== */
+
+    function getLoggedInUser() {
+
+      try {
+
+        if (
+          window.LCStorage &&
+          typeof LCStorage.get === "function"
+        ) {
+
+          const session =
+            LCStorage.get(
+              "authSession"
+            );
+
+
+          console.log(
+            "🔐 Profile auth session:",
+            session
+          );
+
+
+          if (
+            session &&
+            session.user &&
+            session.user.id
+          ) {
+
+            return session.user;
+
+          }
+
+        }
+
+
+        /*
+          Fallback to localStorage.
+        */
+
+        const raw =
+          localStorage.getItem(
+            "authSession"
+          );
+
+
+        if (raw) {
+
+          const session =
+            JSON.parse(raw);
+
+
+          if (
+            session &&
+            session.user &&
+            session.user.id
+          ) {
+
+            return session.user;
+
+          }
+
+        }
+
+      } catch (error) {
+
+        console.error(
+          "❌ Error reading auth session:",
+          error
+        );
+
+      }
+
+
+      return null;
+
+    }
+
+
+
+    /* =====================================================
+       INITIALS
+    ====================================================== */
+
+    function initials(name) {
+
+      const parts =
+        String(name || "")
+          .trim()
+          .split(/\s+/)
+          .filter(Boolean);
+
+
+      if (!parts.length) {
+
+        return "D";
+
+      }
+
+
+      return parts
+        .map(
+          part =>
+            part.charAt(0)
+        )
+        .slice(0, 2)
+        .join("")
+        .toUpperCase();
+
+    }
+
+
+
+    /* =====================================================
+       LOAD REAL DONOR
+    ====================================================== */
+
+    async function loadDonor() {
+
+      currentUser =
+        getLoggedInUser();
+
+
+      if (!currentUser) {
+
+        console.error(
+          "❌ No logged-in user."
+        );
+
+
+        $("profileName")
+          .textContent =
+          "Login session not found";
+
+
+        return false;
+
+      }
+
+
+      console.log(
+        "👤 Current Firebase UID:",
+        currentUser.id
+      );
+
+
+      try {
+
+        /*
+          Get donors from FastAPI.
+        */
+
+        const data =
+          await fetchJson(
+            `${API_BASE}/donors/`
+          );
+
+
+        const donors =
+          Array.isArray(data)
+            ? data
+            : (data.donors || []);
+
+
+        console.log(
+          "🩸 Donors from API:",
+          donors
+        );
+
+
+        /*
+          IMPORTANT:
+          Match donor using Firebase UID.
+        */
+
+        currentDonor =
+          donors.find(
+
+            donor =>
+
+              String(
+                donor.firebaseUid
+              )
+              ===
+              String(
+                currentUser.id
+              )
+
+          ) || null;
+
+
+        if (!currentDonor) {
+
+          console.error(
+            "❌ No donor profile found for UID:",
+            currentUser.id
+          );
+
+
+          $("profileName")
+            .textContent =
+            "Donor profile not found";
+
+
+          alert(
+            "Your donor profile could not be found. Please logout and login again."
+          );
+
+
+          return false;
+
+        }
+
+
+        console.log(
+          "✅ Real donor profile:",
+          currentDonor
+        );
+
+
+        /*
+          Render actual donor.
+        */
+
+        renderView();
+
+
+        fillForm();
+
+
+        return true;
+
+      } catch (error) {
+
+        console.error(
+          "❌ Error loading donor profile:",
+          error
+        );
+
+
+        $("profileName")
+          .textContent =
+          "Unable to load profile";
+
+
+        return false;
+
+      }
+
+    }
+
+
+
+    /* =====================================================
+       RENDER PROFILE
+    ====================================================== */
+
+    function renderView() {
+
+      if (!currentDonor) {
+
+        return;
+
+      }
+
+
+      const d =
+        currentDonor;
+
+
+      /*
+        REAL NAME
+      */
+
+      const name =
+        d.name || "Donor";
+
+
+      $("profileAvatar")
+        .textContent =
+        initials(name);
+
+
+      $("profileName")
+        .textContent =
+        name;
+
+
+      /*
+        REAL BLOOD GROUP
+      */
+
+      $("profileBloodGroupBadge")
+        .textContent =
+        d.bloodGroup || "—";
+
+
+      $("vName")
+        .textContent =
+        d.name || "—";
+
+
+      $("vBloodGroup")
+        .textContent =
+        d.bloodGroup || "—";
+
+
+      $("vArea")
+        .textContent =
+        d.area || "—";
+
+
+      $("vCity")
+        .textContent =
+        d.city || "—";
+
+
+      $("vPhone")
+        .textContent =
+        d.phone || "—";
+
+
+      /*
+        Email:
+        Backend donor records currently may not contain
+        email, so use Firebase login email as fallback.
+      */
+
+      $("vEmail")
+        .textContent =
+        d.email ||
+        currentUser?.email ||
+        "Not available";
+
+
+      /*
+        Availability
+      */
+
+      $("vAvailability").innerHTML =
+
+        d.available === true
+
+          ?
+
+          `
+            <span class="badge-lc badge-success-lc">
+
+              <span class="badge-dot-lc"></span>
+
+              Available
+
+            </span>
+          `
+
+          :
+
+          `
+            <span class="badge-lc badge-inactive-lc">
+              Not Available
+            </span>
+          `;
+
+
+      /*
+        Emergency availability
+      */
+
+      $("vEmergency").innerHTML =
+
+        d.emergencyAvailable === true
+
+          ?
+
+          `
+            <span class="badge-lc badge-danger-lc">
+
+              <i class="bi bi-lightning-charge-fill"></i>
+
+              Available for emergencies
+
+            </span>
+          `
+
+          :
+
+          `
+            <span class="badge-lc badge-inactive-lc">
+              Not available
+            </span>
+          `;
+
+
+      /*
+        Last donation.
+
+        Your current backend doesn't have this field yet,
+        so display it only if it exists.
+      */
+
+      $("vLastDonation")
+        .textContent =
+        d.lastDonation ||
+        "Not recorded";
+
+
+      /*
+        Registration date.
+
+        If backend doesn't have it, show available
+        Firebase/session information instead.
+      */
+
+      $("vRegisteredOn")
+        .textContent =
+        d.registeredOn ||
+        d.createdAt ||
+        "Not recorded";
+
+    }
+
+
+
+    /* =====================================================
+       FILL EDIT FORM
+    ====================================================== */
+
+    function fillForm() {
+
+      if (!currentDonor) {
+
+        return;
+
+      }
+
+
+      const d =
+        currentDonor;
+
+
+      $("fName")
+        .value =
+        d.name || "";
+
+
+      $("fBloodGroup")
+        .value =
+        d.bloodGroup || "";
+
+
+      $("fArea")
+        .value =
+        d.area || "";
+
+
+      $("fCity")
+        .value =
+        d.city || "";
+
+
+      $("fPhone")
+        .value =
+        d.phone || "";
+
+
+      $("fEmail")
+        .value =
+        d.email ||
+        currentUser?.email ||
+        "";
+
+
+      $("fLastDonation")
+        .value =
+        d.lastDonation || "";
+
+    }
+
+
+
+    /* =====================================================
+       EDIT MODE
+    ====================================================== */
+
+    const viewMode =
+      $("viewMode");
+
+
+    const editForm =
+      $("editForm");
+
+
+    const editToggleBtn =
+      $("editToggleBtn");
+
+
+    function enterEditMode() {
+
+      fillForm();
+
+
+      viewMode.classList.add(
+        "d-none"
+      );
+
+
+      editForm.classList.remove(
+        "d-none"
+      );
+
+
+      editToggleBtn.classList.add(
+        "d-none"
+      );
+
+    }
+
+
+    function exitEditMode() {
+
+      viewMode.classList.remove(
+        "d-none"
+      );
+
+
+      editForm.classList.add(
+        "d-none"
+      );
+
+
+      editToggleBtn.classList.remove(
+        "d-none"
+      );
+
+    }
+
+
+    editToggleBtn.addEventListener(
+      "click",
+      enterEditMode
+    );
+
+
+    $("cancelEditBtn")
+      .addEventListener(
+        "click",
+        exitEditMode
+      );
+
+
+
+    /* =====================================================
+       SAVE PROFILE
+    ====================================================== */
+
+    editForm.addEventListener(
+      "submit",
+      async event => {
+
+        event.preventDefault();
+
+
+        if (saving) {
+
+          return;
+
+        }
+
+
+        const name =
+          $("fName")
+            .value
+            .trim();
+
+
+        const bloodGroup =
+          $("fBloodGroup")
+            .value;
+
+
+        const area =
+          $("fArea")
+            .value
+            .trim();
+
+
+        const city =
+          $("fCity")
+            .value
+            .trim();
+
+
+        const phone =
+          $("fPhone")
+            .value
+            .trim();
+
+
+        const lastDonation =
+          $("fLastDonation")
+            .value;
+
+
+        /*
+          Basic validation.
+        */
+
+        if (!name) {
+
+          alert(
+            "Please enter your full name."
+          );
+
+          return;
+
+        }
+
+
+        if (!bloodGroup) {
+
+          alert(
+            "Please select your blood group."
+          );
+
+          return;
+
+        }
+
+
+        if (!area) {
+
+          alert(
+            "Please enter your area."
+          );
+
+          return;
+
+        }
+
+
+        if (!city) {
+
+          alert(
+            "Please enter your city."
+          );
+
+          return;
+
+        }
+
+
+        if (!/^[0-9]{10}$/.test(phone)) {
+
+          alert(
+            "Please enter a valid 10-digit phone number."
+          );
+
+          return;
+
+        }
+
+
+        saving = true;
+
+
+        const saveBtn =
+          $("saveBtn");
+
+
+        saveBtn.disabled =
+          true;
+
+
+        saveBtn.innerHTML = `
+
+          <span
+            class="spinner-border spinner-border-sm"
+            role="status"
+          ></span>
+
+          Saving...
+
+        `;
+
+
+        /*
+          IMPORTANT:
+
+          Your backend currently only has an
+          availability PATCH endpoint.
+
+          So this version checks whether a profile
+          update endpoint exists before attempting it.
+        */
+
+        try {
+
+          const response =
+            await fetch(
+
+              `${API_BASE}/donors/${encodeURIComponent(currentDonor.id)}`,
+
+              {
+
+                method: "PATCH",
+
+                headers: {
+                  "Content-Type":
+                    "application/json"
+                },
+
+                body: JSON.stringify({
+
+                  name,
+
+                  bloodGroup,
+
+                  area,
+
+                  city,
+
+                  phone,
+
+                  email:
+                    $("fEmail").value.trim(),
+
+                  lastDonation
+
+                })
+
+              }
+
+            );
+
+
+          /*
+            If backend does not currently support
+            PATCH profile, tell the user clearly.
+          */
+
+          if (!response.ok) {
+
+            if (
+              response.status === 405 ||
+              response.status === 404
+            ) {
+
+              alert(
+                "The donor profile update API is not added yet. Your current profile can be viewed, but editing needs a PATCH endpoint in the backend."
+              );
+
+              return;
+
+            }
+
+
+            throw new Error(
+              `Profile update failed: ${response.status}`
+            );
+
+          }
+
+
+          const result =
+            await response.json();
+
+
+          if (
+            result.success === false
+          ) {
+
+            throw new Error(
+              result.message ||
+              "Profile update failed."
+            );
+
+          }
+
+
+          /*
+            Update local object immediately.
+          */
+
+          currentDonor.name =
+            name;
+
+
+          currentDonor.bloodGroup =
+            bloodGroup;
+
+
+          currentDonor.area =
+            area;
+
+
+          currentDonor.city =
+            city;
+
+
+          currentDonor.phone =
+            phone;
+
+
+          currentDonor.email =
+            $("fEmail")
+              .value
+              .trim();
+
+
+          currentDonor.lastDonation =
+            lastDonation;
+
+
+          renderView();
+
+
+          exitEditMode();
+
+
+          alert(
+            "Profile updated successfully!"
+          );
+
+
+        } catch (error) {
+
+          console.error(
+            "❌ Profile update error:",
+            error
+          );
+
+
+          alert(
+            "Unable to update your profile. Please check that the backend is running."
+          );
+
+        } finally {
+
+          saving = false;
+
+
+          saveBtn.disabled =
+            false;
+
+
+          saveBtn.innerHTML = `
+
+            <i class="bi bi-check-lg"></i>
+
+            Save Changes
+
+          `;
+
+        }
+
+      }
+
+    );
+
+
+
+    /* =====================================================
+       START
+    ====================================================== */
+
+    loadDonor();
+
+
+  })();
+
+  </script>
+
+
+</body>
+
+</html>

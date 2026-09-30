@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Blood Requests — LifeConnect</title>
+  <meta
+    name="description"
+    content="Blood requests available to LifeConnect donors."
+  >
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+  >
+
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/global.css">
+  <link rel="stylesheet" href="../../css/components.css">
+  <link rel="stylesheet" href="../../css/responsive.css">
+  <link rel="stylesheet" href="../../css/dashboard.css">
+</head>
+
+<body>
+
+<a href="#main-content" class="skip-link">
+  Skip to main content
+</a>
+
+<div id="lc-navbar-root"></div>
+
+<main id="main-content">
+
+  <div class="dash-header-lc">
+    <div class="container-lc">
+      <h1>Blood Requests</h1>
+
+      <p class="text-muted-lc mb-0">
+        View blood requests from people who need your help.
+      </p>
+    </div>
+  </div>
+
+  <section>
+    <div class="container-lc">
+
+      <!-- TABS -->
+      <div class="lc-tabs" id="requestTabs">
+
+        <button
+          type="button"
+          class="lc-tab active"
+          data-status=""
+        >
+          All
+        </button>
+
+        <button
+          type="button"
+          class="lc-tab"
+          data-status="Pending"
+        >
+          Pending
+        </button>
+
+        <button
+          type="button"
+          class="lc-tab"
+          data-status="Accepted"
+        >
+          Accepted
+        </button>
+
+        <button
+          type="button"
+          class="lc-tab"
+          data-status="Completed"
+        >
+          Completed
+        </button>
+
+        <button
+          type="button"
+          class="lc-tab"
+          data-status="Declined"
+        >
+          Declined
+        </button>
+
+      </div>
+
+      <!-- REQUEST CARDS -->
+      <div
+        class="row gy-4"
+        id="requestCards"
+      ></div>
+
+      <!-- EMPTY STATE -->
+      <div
+        id="requestsEmptyState"
+        class="empty-state-lc d-none"
+      >
+
+        <div class="empty-icon-lc">
+          <i class="bi bi-inbox"></i>
+        </div>
+
+        <h4>No blood requests right now</h4>
+
+        <p class="mb-0">
+          New blood requests will appear here.
+        </p>
+
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+
+<!-- =========================================================
+     REQUEST DETAILS MODAL
+========================================================= -->
+
+<div
+  class="modal fade"
+  id="requestModal"
+  tabindex="-1"
+  aria-labelledby="requestModalLabel"
+  aria-hidden="true"
+>
+
+  <div class="modal-dialog modal-dialog-centered">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <h5
+          class="modal-title"
+          id="requestModalLabel"
+        >
+          Request Details
+        </h5>
+
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+
+      </div>
+
+      <div
+        class="modal-body"
+        id="requestModalBody"
+      ></div>
+
+      <div
+        class="modal-footer"
+        id="requestModalFooter"
+      ></div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     DECLINE MODAL
+========================================================= -->
+
+<div
+  class="modal fade"
+  id="declineModal"
+  tabindex="-1"
+  aria-labelledby="declineModalLabel"
+  aria-hidden="true"
+>
+
+  <div class="modal-dialog modal-dialog-centered">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <h5
+          class="modal-title"
+          id="declineModalLabel"
+        >
+          Decline Request?
+        </h5>
+
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+
+      </div>
+
+      <div class="modal-body">
+
+        <p class="mb-0">
+
+          Are you sure you want to decline
+
+          <strong id="declineRequestId"></strong>?
+
+        </p>
+
+      </div>
+
+      <div class="modal-footer">
+
+        <button
+          type="button"
+          class="btn-lc btn-outline-lc"
+          data-bs-dismiss="modal"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="button"
+          class="btn-lc btn-emergency-lc"
+          id="confirmDeclineBtn"
+        >
+          Decline Request
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     COMPLETE MODAL
+========================================================= -->
+
+<div
+  class="modal fade"
+  id="completeModal"
+  tabindex="-1"
+  aria-labelledby="completeModalLabel"
+  aria-hidden="true"
+>
+
+  <div class="modal-dialog modal-dialog-centered">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <h5
+          class="modal-title"
+          id="completeModalLabel"
+        >
+          Complete Request?
+        </h5>
+
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+
+      </div>
+
+      <div class="modal-body">
+
+        <p class="mb-0">
+
+          Mark this blood request as completed?
+
+          This means the donor connection has been successfully completed.
+
+        </p>
+
+      </div>
+
+      <div class="modal-footer">
+
+        <button
+          type="button"
+          class="btn-lc btn-outline-lc"
+          data-bs-dismiss="modal"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="button"
+          class="btn-lc btn-primary-lc"
+          id="confirmCompleteBtn"
+        >
+          Mark Completed
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<div id="lc-footer-root"></div>
+
+
+<!-- Bootstrap -->
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
+
+<!-- LifeConnect scripts -->
+
+<script src="../../js/storage.js"></script>
+<script src="../../js/auth.js"></script>
+<script src="../../js/maps.js"></script>
+<script src="../../js/main.js"></script>
+<script src="../../js/navigation.js"></script>
+
+
+<script>
+
+LCAuth.guard("donor", "../../");
+
+LCNav.mount({
+  base: "../../",
+  active: "blood-requests",
+  role: "donor"
+});
+
+
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const API = "http://127.0.0.1:8000/api";
+
+const $ = id => document.getElementById(id);
+
+
+/* =========================================================
+   BADGES
+========================================================= */
+
+const LEVEL_BADGE = {
+
+  Normal:
+    "badge-inactive-lc",
+
+  Urgent:
+    "badge-warning-lc",
+
+  Emergency:
+    "badge-danger-lc"
+
+};
+
+
+const STATUS_BADGE = {
+
+  Pending:
+    "badge-warning-lc",
+
+  Accepted:
+    "badge-success-lc",
+
+  Declined:
+    "badge-inactive-lc",
+
+  Completed:
+    "badge-success-lc"
+
+};
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const cardsWrap =
+  $("requestCards");
+
+const emptyState =
+  $("requestsEmptyState");
+
+const requestModal =
+  new bootstrap.Modal(
+    $("requestModal")
+  );
+
+const declineModal =
+  new bootstrap.Modal(
+    $("declineModal")
+  );
+
+const completeModal =
+  new bootstrap.Modal(
+    $("completeModal")
+  );
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+let activeTabStatus = "";
+
+let pendingDeclineId = null;
+
+let pendingCompleteId = null;
+
+let allRequests = [];
+
+let currentDonor = null;
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function badge(map, key) {
+
+  return map[key] ||
+    "badge-inactive-lc";
+
+}
+
+
+function plural(n) {
+
+  const units =
+    Number(n) || 0;
+
+  return `${units} unit${units === 1 ? "" : "s"} required`;
+
+}
+
+
+function getRequestById(id) {
+
+  return allRequests.find(
+    request =>
+      String(request.id) === String(id)
+  );
+
+}
+
+
+function escapeHtml(value) {
+
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================================================
+   LOGGED-IN DONOR
+========================================================= */
+
+function getLoggedInUser() {
+
+  try {
+
+    const session =
+      LCStorage.get("authSession");
+
+    return session?.user || null;
+
+  } catch (error) {
+
+    console.error(
+      "Could not read authSession:",
+      error
+    );
+
+    return null;
+
+  }
+
+}
+
+
+/* =========================================================
+   API
+========================================================= */
+
+async function api(path, options = {}) {
+
+  const response =
+    await fetch(
+      `${API}${path}`,
+      options
+    );
+
+  if (!response.ok) {
+
+    throw new Error(
+      `API error ${response.status}`
+    );
+
+  }
+
+  return response.json();
+
+}
+
+
+/* =========================================================
+   LOAD CURRENT DONOR
+========================================================= */
+
+async function loadDonor() {
+
+  const user =
+    getLoggedInUser();
+
+  if (!user) {
+
+    console.error(
+      "Donor login session not found."
+    );
+
+    return null;
+
+  }
+
+
+  try {
+
+    const data =
+      await api("/donors/");
+
+    const donors =
+      data.donors || [];
+
+
+    const donor =
+      donors.find(
+        d =>
+          d.firebaseUid === user.id
+      );
+
+
+    return donor || null;
+
+  } catch (error) {
+
+    console.error(
+      "Error loading donor:",
+      error
+    );
+
+    return null;
+
+  }
+
+}
+
+
+/* =========================================================
+   LOAD REQUESTS
+========================================================= */
+
+async function loadRequests() {
+
+  try {
+
+    const data =
+      await api("/requests/");
+
+    allRequests =
+      data.requests || [];
+
+  } catch (error) {
+
+    console.error(
+      "Error loading blood requests:",
+      error
+    );
+
+    allRequests = [];
+
+  }
+
+}
+
+
+/* =========================================================
+   GET REQUESTS FOR THIS DONOR
+========================================================= */
+
+function getDonorRequests() {
+
+  if (!currentDonor) {
+
+    return [];
+
+  }
+
+
+  return allRequests.filter(request => {
+
+    /*
+      IMPORTANT:
+
+      1. A new Pending request with no donorId
+         is visible to every donor.
+
+      2. Once a donor accepts it, donorId is
+         assigned to that donor.
+
+      3. After assignment, only that donor
+         sees the request.
+    */
+
+    const isUnassignedPending =
+      request.status === "Pending" &&
+      !request.donorId;
+
+
+    const belongsToMe =
+      String(request.donorId) ===
+      String(currentDonor.id);
+
+
+    const visible =
+      isUnassignedPending ||
+      belongsToMe;
+
+
+    const matchesTab =
+      !activeTabStatus ||
+      request.status === activeTabStatus;
+
+
+    return visible && matchesTab;
+
+  });
+
+}
+
+
+/* =========================================================
+   RENDER REQUESTS
+========================================================= */
+
+function renderRequests() {
+
+  const requests =
+    getDonorRequests();
+
+
+  emptyState.classList.toggle(
+    "d-none",
+    requests.length > 0
+  );
+
+
+  if (requests.length === 0) {
+
+    cardsWrap.innerHTML = "";
+
+    return;
+
+  }
+
+
+  cardsWrap.innerHTML =
+    requests.map(request => {
+
+      const level =
+        request.urgency ||
+        "Normal";
+
+
+      const status =
+        request.status ||
+        "Pending";
+
+
+      const isPending =
+        status === "Pending";
+
+
+      const isAccepted =
+        status === "Accepted";
+
+
+      return `
+
+        <div class="col-md-6 col-xl-4">
+
+          <div
+            class="card-lc
+                   card-lc-hover
+                   request-card-lc
+                   h-100"
+          >
+
+            <div class="request-card-head">
+
+              <div>
+
+                <h4
+                  style="font-size:var(--fs-md);"
+                >
+                  ${escapeHtml(request.id)}
+                </h4>
+
+                <span
+                  class="badge-lc badge-blood-lc"
+                >
+                  ${escapeHtml(request.bloodGroup)}
+                </span>
+
+                <span
+                  class="badge-lc
+                         ${badge(
+                           LEVEL_BADGE,
+                           level
+                         )}"
+                >
+                  ${escapeHtml(level)}
+                </span>
+
+              </div>
+
+
+              <span
+                class="badge-lc
+                       ${badge(
+                         STATUS_BADGE,
+                         status
+                       )}"
+              >
+                ${escapeHtml(status)}
+              </span>
+
+            </div>
+
+
+            <div class="request-meta-row-lc">
+
+              <i class="bi bi-person"></i>
+
+              ${escapeHtml(
+                request.requesterName ||
+                "Requester"
+              )}
+
+            </div>
+
+
+            <div class="request-meta-row-lc">
+
+              <i class="bi bi-hospital"></i>
+
+              ${escapeHtml(
+                request.hospital ||
+                "Hospital not specified"
+              )}
+
+            </div>
+
+
+            <div class="request-meta-row-lc">
+
+              <i class="bi bi-geo-alt"></i>
+
+              ${escapeHtml(
+                request.city ||
+                request.location ||
+                "Location not specified"
+              )}
+
+            </div>
+
+
+            <div class="request-meta-row-lc">
+
+              <i class="bi bi-droplet"></i>
+
+              ${plural(request.units)}
+
+            </div>
+
+
+            <div class="request-card-actions-lc">
+
+              <button
+                class="btn-lc
+                       btn-outline-lc
+                       btn-sm-lc
+                       flex-fill"
+                data-action="view"
+                data-id="${escapeHtml(request.id)}"
+              >
+                View Details
+              </button>
+
+
+              ${
+                isPending
+                ? `
+
+                  <button
+                    class="btn-lc
+                           btn-primary-lc
+                           btn-sm-lc
+                           flex-fill"
+                    data-action="accept"
+                    data-id="${escapeHtml(request.id)}"
+                  >
+                    Accept
+                  </button>
+
+                  <button
+                    class="btn-lc
+                           btn-ghost-lc
+                           btn-sm-lc
+                           flex-fill"
+                    data-action="decline"
+                    data-id="${escapeHtml(request.id)}"
+                  >
+                    Decline
+                  </button>
+
+                `
+                : ""
+              }
+
+
+              ${
+                isAccepted
+                ? `
+
+                  <button
+                    class="btn-lc
+                           btn-primary-lc
+                           btn-sm-lc
+                           flex-fill"
+                    data-action="complete"
+                    data-id="${escapeHtml(request.id)}"
+                  >
+                    Mark Completed
+                  </button>
+
+                `
+                : ""
+              }
+
+            </div>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+}
+
+
+/* =========================================================
+   ACTION HANDLERS
+========================================================= */
+
+cardsWrap.addEventListener(
+  "click",
+  event => {
+
+    const button =
+      event.target.closest(
+        "[data-action]"
+      );
+
+    if (!button) return;
+
+
+    const id =
+      button.dataset.id;
+
+    const action =
+      button.dataset.action;
+
+
+    if (action === "view") {
+
+      openRequestModal(id);
+
+    }
+
+
+    if (action === "accept") {
+
+      acceptRequest(id);
+
+    }
+
+
+    if (action === "decline") {
+
+      openDeclineConfirm(id);
+
+    }
+
+
+    if (action === "complete") {
+
+      openCompleteConfirm(id);
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   REQUEST DETAILS
+========================================================= */
+
+function openRequestModal(id) {
+
+  const request =
+    getRequestById(id);
+
+  if (!request) return;
+
+
+  const level =
+    request.urgency ||
+    "Normal";
+
+
+  const status =
+    request.status ||
+    "Pending";
+
+
+  $("requestModalLabel")
+    .textContent =
+      `Request ${request.id}`;
+
+
+  $("requestModalBody")
+    .innerHTML = `
+
+      <div class="d-flex gap-2 mb-3">
+
+        <span
+          class="badge-lc badge-blood-lc"
+        >
+          ${escapeHtml(
+            request.bloodGroup
+          )}
+        </span>
+
+        <span
+          class="badge-lc
+                 ${badge(
+                   LEVEL_BADGE,
+                   level
+                 )}"
+        >
+          ${escapeHtml(level)}
+        </span>
+
+        <span
+          class="badge-lc
+                 ${badge(
+                   STATUS_BADGE,
+                   status
+                 )}"
+        >
+          ${escapeHtml(status)}
+        </span>
+
+      </div>
+
+
+      <p class="mb-2">
+
+        <i class="bi bi-person"></i>
+
+        <strong>Requester:</strong>
+
+        ${escapeHtml(
+          request.requesterName ||
+          "Requester"
+        )}
+
+      </p>
+
+
+      <p class="mb-2">
+
+        <i class="bi bi-person-badge"></i>
+
+        <strong>Patient:</strong>
+
+        ${escapeHtml(
+          request.patientName ||
+          "Not specified"
+        )}
+
+      </p>
+
+
+      <p class="mb-2">
+
+        <i class="bi bi-droplet"></i>
+
+        <strong>Blood Group:</strong>
+
+        ${escapeHtml(
+          request.bloodGroup
+        )}
+
+      </p>
+
+
+      <p class="mb-2">
+
+        <i class="bi bi-droplet-half"></i>
+
+        <strong>Units:</strong>
+
+        ${escapeHtml(
+          request.units
+        )}
+
+      </p>
+
+
+      <p class="mb-2">
+
+        <i class="bi bi-hospital"></i>
+
+        <strong>Hospital:</strong>
+
+        ${escapeHtml(
+          request.hospital ||
+          "Not specified"
+        )}
+
+      </p>
+
+
+      <p class="mb-2">
+
+        <i class="bi bi-geo-alt"></i>
+
+        <strong>Location:</strong>
+
+        ${escapeHtml(
+          request.location ||
+          request.city ||
+          "Not specified"
+        )}
+
+      </p>
+
+
+      <p class="mb-2">
+
+        <i class="bi bi-calendar"></i>
+
+        <strong>Required Date:</strong>
+
+        ${escapeHtml(
+          request.requiredDate ||
+          "Not specified"
+        )}
+
+      </p>
+
+
+      <p class="mb-2">
+
+        <i class="bi bi-telephone"></i>
+
+        <strong>Contact:</strong>
+
+        ${escapeHtml(
+          request.contact ||
+          "Not specified"
+        )}
+
+      </p>
+
+
+      <p class="mb-2">
+
+        <i class="bi bi-exclamation-circle"></i>
+
+        <strong>Urgency:</strong>
+
+        ${escapeHtml(level)}
+
+      </p>
+
+
+      ${
+        request.message
+        ? `
+
+          <div class="mt-3">
+
+            <strong>Message:</strong>
+
+            <p class="text-muted-lc mb-0">
+              ${escapeHtml(
+                request.message
+              )}
+            </p>
+
+          </div>
+
+        `
+        : ""
+      }
+
+    `;
+
+
+  const footer =
+    $("requestModalFooter");
+
+
+  if (status === "Pending") {
+
+    footer.innerHTML = `
+
+      <button
+        type="button"
+        class="btn-lc btn-ghost-lc"
+        id="modalDeclineBtn"
+      >
+        Decline
+      </button>
+
+      <button
+        type="button"
+        class="btn-lc btn-primary-lc"
+        id="modalAcceptBtn"
+      >
+        Accept Request
+      </button>
+
+    `;
+
+
+    $("modalAcceptBtn").onclick =
+      () => {
+
+        requestModal.hide();
+
+        acceptRequest(
+          request.id
+        );
+
+      };
+
+
+    $("modalDeclineBtn").onclick =
+      () => {
+
+        requestModal.hide();
+
+        openDeclineConfirm(
+          request.id
+        );
+
+      };
+
+  }
+
+
+  else if (status === "Accepted") {
+
+    footer.innerHTML = `
+
+      <button
+        type="button"
+        class="btn-lc btn-primary-lc"
+        id="modalCompleteBtn"
+      >
+        Mark Completed
+      </button>
+
+    `;
+
+
+    $("modalCompleteBtn").onclick =
+      () => {
+
+        requestModal.hide();
+
+        openCompleteConfirm(
+          request.id
+        );
+
+      };
+
+  }
+
+
+  else {
+
+    footer.innerHTML = `
+
+      <button
+        type="button"
+        class="btn-lc btn-outline-lc"
+        data-bs-dismiss="modal"
+      >
+        Close
+      </button>
+
+    `;
+
+  }
+
+
+  requestModal.show();
+
+}
+
+
+/* =========================================================
+   UPDATE STATUS
+========================================================= */
+
+async function updateRequestStatus(
+  id,
+  status
+) {
+
+  try {
+
+    /*
+      When accepting, send the current
+      donor ID to the backend.
+
+      This is what assigns the request
+      to this donor.
+    */
+
+    let url =
+      `/requests/${encodeURIComponent(id)}/status?status=${encodeURIComponent(status)}`;
+
+
+    if (status === "Accepted") {
+
+      url +=
+        `&donorId=${encodeURIComponent(
+          currentDonor.id
+        )}`;
+
+    }
+
+
+    const result =
+      await api(
+        url,
+        {
+          method: "PATCH"
+        }
+      );
+
+
+    if (!result.success) {
+
+      throw new Error(
+        result.message ||
+        "Status update failed"
+      );
+
+    }
+
+
+    await loadRequests();
+
+    renderRequests();
+
+
+    return true;
+
+  } catch (error) {
+
+    console.error(
+      "Status update error:",
+      error
+    );
+
+
+    if (
+      window.LCUtils &&
+      LCUtils.showToast
+    ) {
+
+      LCUtils.showToast(
+        "Update failed",
+        "Could not update the blood request.",
+        "danger"
+      );
+
+    }
+
+
+    return false;
+
+  }
+
+}
+
+
+/* =========================================================
+   ACCEPT
+========================================================= */
+
+async function acceptRequest(id) {
+
+  const request =
+    getRequestById(id);
+
+  if (!request) return;
+
+
+  if (request.status !== "Pending") {
+
+    return;
+
+  }
+
+
+  const success =
+    await updateRequestStatus(
+      id,
+      "Accepted"
+    );
+
+
+  if (success) {
+
+    if (
+      window.LCUtils &&
+      LCUtils.showToast
+    ) {
+
+      LCUtils.showToast(
+        "Request accepted",
+        `You accepted request ${id}.`,
+        "success"
+      );
+
+    }
+
+  }
+
+}
+
+
+/* =========================================================
+   DECLINE
+========================================================= */
+
+function openDeclineConfirm(id) {
+
+  pendingDeclineId = id;
+
+  $("declineRequestId")
+    .textContent = id;
+
+  declineModal.show();
+
+}
+
+
+$("confirmDeclineBtn")
+  .addEventListener(
+    "click",
+    async () => {
+
+      if (!pendingDeclineId) return;
+
+
+      const id =
+        pendingDeclineId;
+
+      pendingDeclineId = null;
+
+      declineModal.hide();
+
+
+      const success =
+        await updateRequestStatus(
+          id,
+          "Declined"
+        );
+
+
+      if (success) {
+
+        if (
+          window.LCUtils &&
+          LCUtils.showToast
+        ) {
+
+          LCUtils.showToast(
+            "Request declined",
+            `You declined request ${id}.`,
+            "warning"
+          );
+
+        }
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   COMPLETE
+========================================================= */
+
+function openCompleteConfirm(id) {
+
+  pendingCompleteId = id;
+
+  completeModal.show();
+
+}
+
+
+$("confirmCompleteBtn")
+  .addEventListener(
+    "click",
+    async () => {
+
+      if (!pendingCompleteId) return;
+
+
+      const id =
+        pendingCompleteId;
+
+      pendingCompleteId = null;
+
+      completeModal.hide();
+
+
+      const success =
+        await updateRequestStatus(
+          id,
+          "Completed"
+        );
+
+
+      if (success) {
+
+        if (
+          window.LCUtils &&
+          LCUtils.showToast
+        ) {
+
+          LCUtils.showToast(
+            "Request completed",
+            `Request ${id} has been marked completed.`,
+            "success"
+          );
+
+        }
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   TABS
+========================================================= */
+
+const tabs =
+  document.querySelectorAll(
+    "#requestTabs .lc-tab"
+  );
+
+
+tabs.forEach(tab => {
+
+  tab.addEventListener(
+    "click",
+    () => {
+
+      tabs.forEach(t => {
+
+        t.classList.toggle(
+          "active",
+          t === tab
+        );
+
+      });
+
+
+      activeTabStatus =
+        tab.dataset.status;
+
+
+      renderRequests();
+
+    }
+  );
+
+});
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+(async function init() {
+
+  currentDonor =
+    await loadDonor();
+
+
+  if (!currentDonor) {
+
+    cardsWrap.innerHTML = "";
+
+    emptyState.classList.remove(
+      "d-none"
+    );
+
+    return;
+
+  }
+
+
+  await loadRequests();
+
+  renderRequests();
+
+})();
+
+</script>
+
+</body>
+</html>

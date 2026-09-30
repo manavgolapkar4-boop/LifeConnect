@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage Blood Requests — LifeConnect Admin</title>
+  <meta name="description" content="Search, filter and manage blood requests across LifeConnect." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/global.css">
+  <link rel="stylesheet" href="../../css/components.css">
+  <link rel="stylesheet" href="../../css/responsive.css">
+  <link rel="stylesheet" href="../../css/dashboard.css">
+  <link rel="stylesheet" href="../../css/admin.css">
+</head>
+<body class="lc-admin-body">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div class="lc-admin-shell" id="adminShell">
+    <aside class="lc-admin-sidebar" id="lc-admin-sidebar-root"></aside>
+    <div class="lc-admin-content">
+      <header class="lc-admin-topbar" id="lc-admin-topbar-root"></header>
+      <main id="main-content" class="lc-admin-main">
+
+        <div class="admin-toolbar-lc">
+          <div>
+            <label class="form-label-lc" for="rSearch">Search</label>
+            <input type="text" class="form-control-lc" id="rSearch" placeholder="Request ID, patient or hospital">
+          </div>
+          <div>
+            <label class="form-label-lc" for="rStatus">Status</label>
+            <select class="form-select-lc" id="rStatus">
+              <option value="">All statuses</option>
+              <option value="Searching">Searching</option>
+              <option value="Donor Found">Donor Found</option>
+              <option value="Accepted">Accepted</option>
+              <option value="Completed">Completed</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label-lc" for="rUrgency">Urgency</label>
+            <select class="form-select-lc" id="rUrgency">
+              <option value="">All levels</option>
+              <option value="Normal">Normal</option>
+              <option value="Urgent">Urgent</option>
+              <option value="Critical">Critical</option>
+            </select>
+          </div>
+          <button class="btn-lc btn-primary-lc" id="rSearchBtn"><i class="bi bi-search"></i> Search</button>
+        </div>
+
+        <div class="table-responsive-lc">
+          <table class="table-lc">
+            <thead>
+              <tr><th>Request ID</th><th>Blood Group</th><th>Hospital</th><th>Urgency</th><th>Status</th><th>Action</th></tr>
+            </thead>
+            <tbody id="requestsTableBody"></tbody>
+          </table>
+        </div>
+        <div id="requestsEmptyState" class="empty-state-lc d-none">
+          <div class="empty-icon-lc"><i class="bi bi-inbox"></i></div>
+          <h4>No requests match your filters.</h4>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../js/mock-data.js"></script>
+  <script src="../../js/storage.js"></script>
+  <script src="../../js/auth.js"></script>
+  <script src="../../js/maps.js"></script>
+  <script src="../../js/main.js"></script>
+  <script src="../../js/navigation.js"></script>
+  <script>
+    LCAuth.guard("admin", "../../");
+    LCNav.mountAdminShell({ base: "../../", active: "requests", pageTitle: "Manage Blood Requests" });
+
+    const LEVEL_BADGE = { Normal: "badge-inactive-lc", Urgent: "badge-warning-lc", Critical: "badge-danger-lc" };
+    const STATUS_BADGE = { Searching: "badge-warning-lc", "Donor Found": "badge-blood-lc", Accepted: "badge-blood-lc", Completed: "badge-success-lc", Cancelled: "badge-inactive-lc" };
+
+    const tableBody = document.getElementById("requestsTableBody");
+    const emptyState = document.getElementById("requestsEmptyState");
+
+    function renderRequests() {
+      const filters = {
+        search: document.getElementById("rSearch").value || undefined,
+        status: document.getElementById("rStatus").value || undefined,
+        emergencyLevel: document.getElementById("rUrgency").value || undefined
+      };
+      const requests = LCData.getAdminRequests(filters);
+      emptyState.classList.toggle("d-none", requests.length > 0);
+
+      tableBody.innerHTML = requests.map(r => `
+        <tr>
+          <td>${r.id}</td>
+          <td><span class="badge-lc badge-blood-lc">${r.bloodGroup}</span></td>
+          <td>${r.hospital}</td>
+          <td><span class="badge-lc ${LEVEL_BADGE[r.emergencyLevel] || "badge-inactive-lc"}">${r.emergencyLevel}</span></td>
+          <td><span class="badge-lc ${STATUS_BADGE[r.status] || "badge-inactive-lc"}">${r.status}</span></td>
+          <td>
+            ${r.status !== "Completed" && r.status !== "Cancelled" ? `
+              <button class="btn-lc btn-outline-lc btn-sm-lc" data-approve="${r.id}">Approve</button>
+              <button class="btn-lc btn-ghost-lc btn-sm-lc" data-cancel="${r.id}">Cancel</button>
+            ` : "—"}
+          </td>
+        </tr>`).join("");
+
+      tableBody.querySelectorAll("[data-approve]").forEach(btn => {
+        btn.addEventListener("click", () => updateStatus(btn.dataset.approve, "Completed", "success"));
+      });
+      tableBody.querySelectorAll("[data-cancel]").forEach(btn => {
+        btn.addEventListener("click", () => updateStatus(btn.dataset.cancel, "Cancelled", "danger"));
+      });
+    }
+
+    async function updateStatus(id, status, variant) {
+      const ok = await LCUtils.confirmDialog({
+        title: status === "Completed" ? "Mark this request as completed?" : "Cancel this request?",
+        message: `Request ${id} will be updated to "${status}".`,
+        confirmLabel: status === "Completed" ? "Approve" : "Cancel Request",
+        variant: variant === "danger" ? "danger" : undefined
+      });
+      if (!ok) return;
+      const req = LCData.adminUpdateRequestStatus(id, status);
+      renderRequests();
+      if (req) LCUtils.showToast("Request updated", `${req.id} is now ${status}.`, variant);
+    }
+
+    document.getElementById("rSearchBtn").addEventListener("click", renderRequests);
+    document.getElementById("rStatus").addEventListener("change", renderRequests);
+    document.getElementById("rUrgency").addEventListener("change", renderRequests);
+    document.getElementById("rSearch").addEventListener("keyup", (e) => { if (e.key === "Enter") renderRequests(); });
+
+    renderRequests();
+  </script>
+</body>
+</html>

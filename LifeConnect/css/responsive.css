@@ -1,0 +1,31 @@
+/* ==========================================================================
+   LifeConnect — Responsive Overrides
+   Breakpoint-specific tweaks that don't belong inline with components.
+   Bootstrap grid handles most layout; this covers LC-specific structures.
+   ========================================================================== */
+
+@media (max-width: 1199.98px) {
+  :root { --container-max: 100%; }
+}
+
+@media (max-width: 991.98px) {
+  h1 { font-size: var(--fs-2xl); }
+  h2 { font-size: var(--fs-xl); }
+  section { padding: var(--space-7) 0; }
+  .hero-lc { text-align: left; }
+  .hero-visual-lc { margin-top: var(--space-6); }
+}
+
+@media (max-width: 767.98px) {
+  .container-lc { padding: 0 var(--space-4); }
+  section { padding: var(--space-6) 0; }
+  .stat-card-lc { text-align: left; }
+  .lc-footer-bottom { flex-direction: column; align-items: flex-start; }
+  .filter-panel-lc .btn-lc { width: 100%; }
+}
+
+@media (max-width: 575.98px) {
+  h1 { font-size: var(--fs-xl); }
+  .btn-lg-lc { width: 100%; }
+  .lc-toast-region { left: var(--space-4); right: var(--space-4); width: auto; }
+}

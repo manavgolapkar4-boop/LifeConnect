@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage Hospitals — LifeConnect Admin</title>
+  <meta name="description" content="View and manage LifeConnect partner hospitals." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/global.css">
+  <link rel="stylesheet" href="../../css/components.css">
+  <link rel="stylesheet" href="../../css/responsive.css">
+  <link rel="stylesheet" href="../../css/dashboard.css">
+  <link rel="stylesheet" href="../../css/admin.css">
+</head>
+<body class="lc-admin-body">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div class="lc-admin-shell" id="adminShell">
+    <aside class="lc-admin-sidebar" id="lc-admin-sidebar-root"></aside>
+    <div class="lc-admin-content">
+      <header class="lc-admin-topbar" id="lc-admin-topbar-root"></header>
+      <main id="main-content" class="lc-admin-main">
+
+        <div class="admin-toolbar-lc">
+          <div>
+            <label class="form-label-lc" for="hSearch">Search</label>
+            <input type="text" class="form-control-lc" id="hSearch" placeholder="Hospital name, area or city">
+          </div>
+          <button class="btn-lc btn-primary-lc" id="hSearchBtn"><i class="bi bi-search"></i> Search</button>
+          <button class="btn-lc btn-outline-lc ms-auto" id="hAddBtn"><i class="bi bi-plus-lg"></i> Add Hospital</button>
+        </div>
+
+        <div class="table-responsive-lc">
+          <table class="table-lc">
+            <thead>
+              <tr><th>Hospital</th><th>Location</th><th>Emergency</th><th>Phone</th><th>Status</th><th>Action</th></tr>
+            </thead>
+            <tbody id="hospitalsTableBody"></tbody>
+          </table>
+        </div>
+        <div id="hospitalsEmptyState" class="empty-state-lc d-none">
+          <div class="empty-icon-lc"><i class="bi bi-hospital"></i></div>
+          <h4>No hospitals match your search.</h4>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../js/mock-data.js"></script>
+  <script src="../../js/storage.js"></script>
+  <script src="../../js/auth.js"></script>
+  <script src="../../js/maps.js"></script>
+  <script src="../../js/main.js"></script>
+  <script src="../../js/navigation.js"></script>
+  <script>
+    LCAuth.guard("admin", "../../");
+    LCNav.mountAdminShell({ base: "../../", active: "hospitals", pageTitle: "Manage Hospitals" });
+
+    const tableBody = document.getElementById("hospitalsTableBody");
+    const emptyState = document.getElementById("hospitalsEmptyState");
+
+    function renderHospitals() {
+      const filters = { location: document.getElementById("hSearch").value || undefined };
+      const hospitals = LCData.getAdminHospitals(filters);
+      emptyState.classList.toggle("d-none", hospitals.length > 0);
+
+      tableBody.innerHTML = hospitals.map(h => `
+        <tr>
+          <td>${h.name}</td>
+          <td>${h.area}, ${h.city}</td>
+          <td>${h.emergencyAvailable ? '<span class="badge-lc badge-success-lc"><span class="badge-dot-lc"></span> 24/7</span>' : '<span class="badge-lc badge-inactive-lc">Standard hours</span>'}</td>
+          <td>${h.phone}</td>
+          <td><span class="badge-lc badge-success-lc">Active</span></td>
+          <td>
+            <button class="btn-lc btn-outline-lc btn-sm-lc" data-view="${h.id}">View</button>
+            <button class="btn-lc btn-ghost-lc btn-sm-lc" disabled title="Demo only — editing not implemented in this phase">Edit</button>
+          </td>
+        </tr>`).join("");
+
+      tableBody.querySelectorAll("[data-view]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const h = hospitals.find(x => x.id === btn.dataset.view);
+          if (h) LCUtils.showToast(h.name, `${h.area}, ${h.city} · ${h.phone}`, "info");
+        });
+      });
+    }
+
+    document.getElementById("hSearchBtn").addEventListener("click", renderHospitals);
+    document.getElementById("hSearch").addEventListener("keyup", (e) => { if (e.key === "Enter") renderHospitals(); });
+    document.getElementById("hAddBtn").addEventListener("click", () => {
+      LCUtils.showToast("Demo only", "Adding new hospitals will be available once the backend for this section is built.", "info");
+    });
+
+    renderHospitals();
+  </script>
+</body>
+</html>

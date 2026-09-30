@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Create Blood Request — LifeConnect</title>
+
+  <meta
+    name="description"
+    content="Submit a new blood request and get matched with nearby donors."
+  />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- Bootstrap -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  >
+
+  <!-- Bootstrap Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+  >
+
+  <!-- LifeConnect CSS -->
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/global.css">
+  <link rel="stylesheet" href="../../css/components.css">
+  <link rel="stylesheet" href="../../css/responsive.css">
+  <link rel="stylesheet" href="../../css/dashboard.css">
+</head>
+
+
+<body>
+
+  <!-- Accessibility -->
+  <a
+    href="#main-content"
+    class="skip-link"
+  >
+    Skip to main content
+  </a>
+
+
+  <!-- NAVBAR -->
+  <div id="lc-navbar-root"></div>
+
+
+  <!-- MAIN CONTENT -->
+  <main id="main-content">
+
+    <!-- PAGE HEADER -->
+    <div class="dash-header-lc">
+
+      <div class="container-lc">
+
+        <h1>Create a blood request</h1>
+
+        <p class="text-muted-lc mb-0">
+          Fill in the patient and hospital details — we'll match nearby donors by blood group.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- REQUEST FORM -->
+    <section>
+
+      <div class="container-lc">
+
+        <div class="row gy-4">
+
+
+          <!-- ================================ -->
+          <!-- FORM -->
+          <!-- ================================ -->
+
+          <div class="col-lg-8">
+
+            <form
+              class="card-lc"
+              id="requestForm"
+              novalidate
+            >
+
+              <div class="row gy-3">
+
+
+                <!-- PATIENT NAME -->
+                <div class="col-md-6">
+
+                  <label
+                    class="form-label-lc"
+                    for="patientName"
+                  >
+                    Patient name
+                  </label>
+
+                  <input
+                    type="text"
+                    class="form-control-lc"
+                    id="patientName"
+                    required
+                  >
+
+                  <div class="form-error-lc">
+                    Enter the patient's name.
+                  </div>
+
+                </div>
+
+
+                <!-- BLOOD GROUP -->
+                <div class="col-md-6">
+
+                  <label
+                    class="form-label-lc"
+                    for="bloodGroup"
+                  >
+                    Blood group
+                  </label>
+
+                  <select
+                    class="form-select-lc"
+                    id="bloodGroup"
+                    required
+                  >
+
+                    <option value="">
+                      Select blood group
+                    </option>
+
+                  </select>
+
+                  <div class="form-error-lc">
+                    Select a blood group.
+                  </div>
+
+                </div>
+
+
+                <!-- UNITS -->
+                <div class="col-md-4">
+
+                  <label
+                    class="form-label-lc"
+                    for="units"
+                  >
+                    Required units
+                  </label>
+
+                  <input
+                    type="number"
+                    min="1"
+                    max="10"
+                    class="form-control-lc"
+                    id="units"
+                    value="1"
+                    required
+                  >
+
+                  <div class="form-error-lc">
+                    Enter a valid number of units.
+                  </div>
+
+                </div>
+
+
+                <!-- HOSPITAL -->
+                <div class="col-md-8">
+
+                  <label
+                    class="form-label-lc"
+                    for="hospital"
+                  >
+                    Hospital name
+                  </label>
+
+                  <select
+                    class="form-select-lc"
+                    id="hospital"
+                    required
+                  >
+
+                    <option value="">
+                      Select hospital
+                    </option>
+
+                  </select>
+
+                  <div class="form-error-lc">
+                    Select a hospital.
+                  </div>
+
+                </div>
+
+
+                <!-- LOCATION -->
+                <div class="col-md-6">
+
+                  <label
+                    class="form-label-lc"
+                    for="location"
+                  >
+                    Hospital location
+                  </label>
+
+                  <input
+                    type="text"
+                    class="form-control-lc"
+                    id="location"
+                    placeholder="e.g. Andheri West"
+                    required
+                  >
+
+                  <div class="form-error-lc">
+                    Enter the hospital's location.
+                  </div>
+
+                </div>
+
+
+                <!-- CITY -->
+                <div class="col-md-6">
+
+                  <label
+                    class="form-label-lc"
+                    for="city"
+                  >
+                    City
+                  </label>
+
+                  <input
+                    type="text"
+                    class="form-control-lc"
+                    id="city"
+                    required
+                  >
+
+                  <div class="form-error-lc">
+                    Enter the city.
+                  </div>
+
+                </div>
+
+
+                <!-- REQUIRED DATE -->
+                <div class="col-md-6">
+
+                  <label
+                    class="form-label-lc"
+                    for="requiredDate"
+                  >
+                    Required date
+                  </label>
+
+                  <input
+                    type="date"
+                    class="form-control-lc"
+                    id="requiredDate"
+                    required
+                  >
+
+                  <div class="form-error-lc">
+                    Select a required date.
+                  </div>
+
+                </div>
+
+
+                <!-- CONTACT -->
+                <div class="col-md-6">
+
+                  <label
+                    class="form-label-lc"
+                    for="contact"
+                  >
+                    Contact number
+                  </label>
+
+                  <input
+                    type="tel"
+                    class="form-control-lc"
+                    id="contact"
+                    placeholder="10-digit mobile number"
+                    pattern="[0-9]{10}"
+                    required
+                  >
+
+                  <div class="form-error-lc">
+                    Enter a valid 10-digit number.
+                  </div>
+
+                </div>
+
+
+                <!-- ================================ -->
+                <!-- URGENCY -->
+                <!-- ================================ -->
+
+                <div class="col-12">
+
+                  <label class="form-label-lc mb-2">
+                    Urgency
+                  </label>
+
+                  <div class="row g-2">
+
+
+                    <!-- NORMAL -->
+                    <div class="col-4">
+
+                      <input
+                        type="radio"
+                        class="btn-check"
+                        name="urgency"
+                        id="urgencyNormal"
+                        value="Normal"
+                        checked
+                      >
+
+                      <label
+                        class="btn-lc btn-outline-lc btn-block-lc"
+                        for="urgencyNormal"
+                      >
+                        Normal
+                      </label>
+
+                    </div>
+
+
+                    <!-- URGENT -->
+                    <div class="col-4">
+
+                      <input
+                        type="radio"
+                        class="btn-check"
+                        name="urgency"
+                        id="urgencyUrgent"
+                        value="Urgent"
+                      >
+
+                      <label
+                        class="btn-lc btn-outline-lc btn-block-lc"
+                        for="urgencyUrgent"
+                        style="color:var(--warning);border-color:#EFD9B3;"
+                      >
+                        Urgent
+                      </label>
+
+                    </div>
+
+
+                    <!-- CRITICAL -->
+                    <div class="col-4">
+
+                      <input
+                        type="radio"
+                        class="btn-check"
+                        name="urgency"
+                        id="urgencyCritical"
+                        value="Critical"
+                      >
+
+                      <label
+                        class="btn-lc btn-outline-lc btn-block-lc"
+                        for="urgencyCritical"
+                        style="color:var(--danger);border-color:#EFC7C1;"
+                      >
+                        Critical
+                      </label>
+
+                    </div>
+
+                  </div>
+
+
+                  <p
+                    class="form-hint-lc mt-2"
+                    id="urgencyHint"
+                  >
+                    Normal — no immediate time pressure.
+                  </p>
+
+                </div>
+
+
+                <!-- ================================ -->
+                <!-- MESSAGE -->
+                <!-- ================================ -->
+
+                <div class="col-12">
+
+                  <label
+                    class="form-label-lc"
+                    for="message"
+                  >
+                    Additional message
+                  </label>
+
+                  <textarea
+                    class="form-control-lc"
+                    id="message"
+                    rows="3"
+                    maxlength="300"
+                    placeholder="Any details that could help a donor respond faster"
+                  ></textarea>
+
+                  <div class="form-hint-lc">
+
+                    <span id="msgCount">
+                      0
+                    </span>
+
+                    /300 characters
+
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <hr
+                style="
+                  border-color:var(--border);
+                  margin:var(--space-5) 0;
+                "
+              >
+
+
+              <!-- SUBMIT -->
+              <button
+                type="submit"
+                class="btn-lc btn-primary-lc btn-lg-lc"
+                id="submitRequestBtn"
+              >
+
+                <i class="bi bi-send"></i>
+
+                Submit Blood Request
+
+              </button>
+
+
+            </form>
+
+          </div>
+
+
+          <!-- ================================ -->
+          <!-- INFORMATION BOX -->
+          <!-- ================================ -->
+
+          <div class="col-lg-4">
+
+            <div class="alert-lc alert-warning-lc">
+
+              <i class="bi bi-info-circle-fill"></i>
+
+              <div>
+
+                <strong>
+                  Demo request
+                </strong>
+
+                <p
+                  class="mb-0"
+                  style="font-size:var(--fs-sm);"
+                >
+
+                  This creates a request in your local demo account only.
+                  For a real medical emergency, use the
+                  <a href="../public/emergency-request.html">
+                    Emergency Request
+                  </a>
+                  page or contact emergency services directly.
+
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- FOOTER -->
+  <div id="lc-footer-root"></div>
+
+
+  <!-- BOOTSTRAP JS -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  ></script>
+
+
+  <!-- LIFE CONNECT JS -->
+  <script src="../../js/mock-data.js"></script>
+  <script src="../../js/storage.js"></script>
+  <script src="../../js/auth.js"></script>
+  <script src="../../js/maps.js"></script>
+  <script src="../../js/main.js"></script>
+  <script src="../../js/navigation.js"></script>
+
+
+  <!-- PAGE SCRIPT -->
+  <script>
+
+    // ==========================================
+    // AUTHENTICATION
+    // ==========================================
+
+    LCAuth.guard(
+      "requester",
+      "../../"
+    );
+
+
+    // ==========================================
+    // NAVIGATION
+    // ==========================================
+
+    LCNav.mount({
+      base: "../../",
+      active: "create-request",
+      role: "requester"
+    });
+
+
+    // ==========================================
+    // BLOOD GROUPS
+    // ==========================================
+
+    const bgSelect =
+      document.getElementById(
+        "bloodGroup"
+      );
+
+
+    LCData.getBloodGroups().forEach(
+      bg => {
+
+        const opt =
+          document.createElement(
+            "option"
+          );
+
+        opt.value = bg;
+        opt.textContent = bg;
+
+        bgSelect.appendChild(opt);
+
+      }
+    );
+
+
+    // ==========================================
+    // HOSPITALS
+    // ==========================================
+
+    const hospitalSelect =
+      document.getElementById(
+        "hospital"
+      );
+
+
+    LCData.getHospitals().forEach(
+      h => {
+
+        const opt =
+          document.createElement(
+            "option"
+          );
+
+        opt.value = h.name;
+
+        opt.textContent =
+          `${h.name} — ${h.area}, ${h.city}`;
+
+        hospitalSelect.appendChild(
+          opt
+        );
+
+      }
+    );
+
+
+    // ==========================================
+    // URGENCY HINTS
+    // ==========================================
+
+    const URGENCY_HINTS = {
+
+      Normal:
+        "Normal — no immediate time pressure.",
+
+      Urgent:
+        "Urgent — needed within the next few days.",
+
+      Critical:
+        "Critical — needed as soon as possible."
+
+    };
+
+
+    document
+      .querySelectorAll(
+        'input[name="urgency"]'
+      )
+      .forEach(input => {
+
+        input.addEventListener(
+          "change",
+          () => {
+
+            document.getElementById(
+              "urgencyHint"
+            ).textContent =
+              URGENCY_HINTS[
+                input.value
+              ];
+
+          }
+        );
+
+      });
+
+
+    // ==========================================
+    // MESSAGE CHARACTER COUNT
+    // ==========================================
+
+    const messageInput =
+      document.getElementById(
+        "message"
+      );
+
+
+    messageInput.addEventListener(
+      "input",
+      () => {
+
+        document.getElementById(
+          "msgCount"
+        ).textContent =
+          messageInput.value.length;
+
+      }
+    );
+
+
+    // ==========================================
+    // FORM
+    // ==========================================
+
+    const form =
+      document.getElementById(
+        "requestForm"
+      );
+
+
+    const submitButton =
+      document.getElementById(
+        "submitRequestBtn"
+      );
+
+
+    LCUtils.attachLiveValidation(
+      form
+    );
+
+
+    // ==========================================
+    // SUBMIT BLOOD REQUEST
+    // ==========================================
+
+    form.addEventListener(
+      "submit",
+      async (e) => {
+
+        e.preventDefault();
+
+
+        // --------------------------------------
+        // VALIDATE FORM
+        // --------------------------------------
+
+        if (
+          !LCUtils.validateForm(
+            form
+          )
+        ) {
+
+          LCUtils.showToast(
+            "Missing information",
+            "Please fill in all required fields correctly.",
+            "danger"
+          );
+
+          return;
+
+        }
+
+
+        // --------------------------------------
+        // GET LOGIN SESSION
+        // --------------------------------------
+
+        const session =
+          LCStorage.get(
+            "authSession"
+          );
+
+
+        if (
+          !session ||
+          !session.user ||
+          !session.user.id
+        ) {
+
+          LCUtils.showToast(
+            "Login required",
+            "Please log in again before creating a blood request.",
+            "danger"
+          );
+
+          return;
+
+        }
+
+
+        // --------------------------------------
+        // REQUESTER INFORMATION
+        // --------------------------------------
+
+        const requesterId =
+          session.user.id;
+
+
+        const requesterName =
+          session.user.name ||
+          session.user.email ||
+          "Requester";
+
+
+        // --------------------------------------
+        // REQUEST DATA
+        // --------------------------------------
+
+        const requestData = {
+
+          requesterId:
+            requesterId,
+
+          requesterName:
+            requesterName,
+
+          patientName:
+            document
+              .getElementById(
+                "patientName"
+              )
+              .value
+              .trim(),
+
+          bloodGroup:
+            bgSelect.value,
+
+          units:
+            Number(
+              document
+                .getElementById(
+                  "units"
+                )
+                .value
+            ),
+
+          hospital:
+            hospitalSelect.value,
+
+          location:
+            document
+              .getElementById(
+                "location"
+              )
+              .value
+              .trim(),
+
+          city:
+            document
+              .getElementById(
+                "city"
+              )
+              .value
+              .trim(),
+
+          requiredDate:
+            document
+              .getElementById(
+                "requiredDate"
+              )
+              .value,
+
+          contact:
+            document
+              .getElementById(
+                "contact"
+              )
+              .value
+              .trim(),
+
+          urgency:
+            form.querySelector(
+              'input[name="urgency"]:checked'
+            ).value,
+
+          message:
+            messageInput.value.trim()
+
+        };
+
+
+        // --------------------------------------
+        // DISABLE BUTTON
+        // --------------------------------------
+
+        submitButton.disabled = true;
+
+        submitButton.innerHTML =
+          `<i class="bi bi-hourglass-split"></i>
+           Submitting...`;
+
+
+        // --------------------------------------
+        // SEND TO FASTAPI
+        // --------------------------------------
+
+        try {
+
+          const response =
+            await fetch(
+              "http://127.0.0.1:8000/api/requests/",
+              {
+
+                method: "POST",
+
+                headers: {
+                  "Content-Type":
+                    "application/json"
+                },
+
+                body:
+                  JSON.stringify(
+                    requestData
+                  )
+
+              }
+            );
+
+
+          // ------------------------------------
+          // READ RESPONSE
+          // ------------------------------------
+
+          const result =
+            await response.json();
+
+
+          // ------------------------------------
+          // CHECK RESPONSE
+          // ------------------------------------
+
+          if (
+            !response.ok ||
+            !result.success
+          ) {
+
+            throw new Error(
+              result.message ||
+              "Unable to create blood request."
+            );
+
+          }
+
+
+          // ------------------------------------
+          // SUCCESS
+          // ------------------------------------
+
+          LCUtils.showToast(
+            "Request submitted",
+            "Your blood request was created successfully.",
+            "success"
+          );
+
+
+          // ------------------------------------
+          // REDIRECT
+          // ------------------------------------
+
+          setTimeout(
+            () => {
+
+              window.location.href =
+                "my-requests.html";
+
+            },
+            900
+          );
+
+
+        } catch (error) {
+
+          console.error(
+            "Blood request error:",
+            error
+          );
+
+
+          LCUtils.showToast(
+            "Request failed",
+            "Could not create the blood request. Please make sure the backend is running.",
+            "danger"
+          );
+
+
+          // Re-enable button
+          submitButton.disabled =
+            false;
+
+          submitButton.innerHTML =
+            `<i class="bi bi-send"></i>
+             Submit Blood Request`;
+
+        }
+
+      }
+    );
+
+  </script>
+
+</body>
+</html>

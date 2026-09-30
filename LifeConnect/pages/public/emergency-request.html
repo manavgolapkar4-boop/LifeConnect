@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emergency Blood Request — LifeConnect</title>
+  <meta name="description" content="Submit an emergency blood request and get matched with nearby available donors." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/global.css">
+  <link rel="stylesheet" href="../../css/components.css">
+  <link rel="stylesheet" href="../../css/responsive.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div id="lc-navbar-root"></div>
+
+  <main id="main-content">
+    <div class="page-hero-strip" style="background-color:var(--danger-tint);border-bottom:1px solid #EFC7C1;">
+      <div class="container-lc">
+        <span class="badge-lc badge-danger-lc mb-2"><i class="bi bi-lightning-charge-fill"></i> Emergency</span>
+        <h1>Create an emergency blood request</h1>
+        <p class="text-muted-lc mb-0">This is a project demonstration and does not connect to a real emergency medical service. In a real emergency, contact your local hospital or emergency services directly.</p>
+      </div>
+    </div>
+
+    <section>
+      <div class="container-lc">
+        <div class="row gy-4">
+
+          <!-- Form -->
+          <div class="col-lg-8" id="formColumn">
+            <form class="card-lc" id="emergencyForm" novalidate>
+              <div class="row gy-4">
+                <div class="col-md-6">
+                  <label class="form-label-lc" for="patientName">Patient name</label>
+                  <input type="text" class="form-control-lc" id="patientName" required>
+                  <div class="form-error-lc">Enter the patient's name.</div>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label-lc" for="bloodGroup">Blood group</label>
+                  <select class="form-select-lc" id="bloodGroup" required>
+                    <option value="">Select blood group</option>
+                  </select>
+                  <div class="form-error-lc">Select a blood group.</div>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label-lc" for="hospital">Hospital</label>
+                  <select class="form-select-lc" id="hospital" required>
+                    <option value="">Select hospital</option>
+                  </select>
+                  <div class="form-error-lc">Select a hospital.</div>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label-lc" for="location">Location / area</label>
+                  <input type="text" class="form-control-lc" id="location" placeholder="e.g. Andheri West" required>
+                  <div class="form-error-lc">Enter the location.</div>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label-lc" for="units">Units required</label>
+                  <input type="number" min="1" max="10" class="form-control-lc" id="units" value="1" required>
+                  <div class="form-error-lc">Enter a valid number of units.</div>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label-lc" for="requiredDate">Required by</label>
+                  <input type="date" class="form-control-lc" id="requiredDate" required>
+                  <div class="form-error-lc">Select a required date.</div>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label-lc" for="contact">Contact number</label>
+                  <input type="tel" class="form-control-lc" id="contact" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
+                  <div class="form-error-lc">Enter a valid 10-digit number.</div>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label-lc" for="emergencyLevel">Emergency level</label>
+                  <select class="form-select-lc" id="emergencyLevel" required>
+                    <option value="Normal">Normal</option>
+                    <option value="Urgent">Urgent</option>
+                    <option value="Critical" selected>Critical</option>
+                  </select>
+                </div>
+
+                <div class="col-12">
+                  <label class="form-label-lc" for="notes">Additional information</label>
+                  <textarea class="form-control-lc" id="notes" rows="3" placeholder="Any details that could help a donor or hospital respond faster"></textarea>
+                </div>
+              </div>
+
+              <hr style="border-color:var(--border);margin:var(--space-5) 0;">
+
+              <button type="submit" class="btn-lc btn-emergency-lc btn-lg-lc">
+                <i class="bi bi-lightning-charge-fill"></i> Submit Emergency Request
+              </button>
+            </form>
+          </div>
+
+          <!-- Sidebar -->
+          <div class="col-lg-4">
+            <div class="alert-lc alert-warning-lc">
+              <i class="bi bi-info-circle-fill"></i>
+              <div>
+                <strong>Before you submit</strong>
+                <p class="mb-0" style="font-size:var(--fs-sm);">Double-check the hospital and blood group — donors are matched using these details first.</p>
+              </div>
+            </div>
+            <div class="card-lc mt-4">
+              <h4 class="mb-2">What happens next?</h4>
+              <p class="text-muted-lc mb-0" style="font-size:var(--fs-sm);">We generate a request ID, notify matching nearby donors, and show live status here until a donor is found.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Success state (hidden until submit) -->
+        <div class="d-none" id="successColumn">
+          <div class="card-lc" style="max-width:720px;margin:0 auto;">
+            <div class="text-center mb-5">
+              <div class="empty-icon-lc" style="background-color:var(--success-tint);color:var(--success);"><i class="bi bi-check-lg"></i></div>
+              <h3>Request submitted successfully.</h3>
+              <p class="text-muted-lc mb-0">Request ID: <strong id="requestIdLabel" style="color:var(--secondary);"></strong></p>
+            </div>
+
+            <ol class="timeline-lc">
+              <li class="timeline-step-lc done"><span class="timeline-dot-lc"><i class="bi bi-check-lg"></i></span><span class="timeline-label-lc">Request Created</span></li>
+              <li class="timeline-step-lc active"><span class="timeline-dot-lc"><i class="bi bi-search"></i></span><span class="timeline-label-lc">Searching for Donors</span></li>
+              <li class="timeline-step-lc"><span class="timeline-dot-lc">3</span><span class="timeline-label-lc">Donor Found</span></li>
+              <li class="timeline-step-lc"><span class="timeline-dot-lc">4</span><span class="timeline-label-lc">Accepted</span></li>
+              <li class="timeline-step-lc"><span class="timeline-dot-lc">5</span><span class="timeline-label-lc">Completed</span></li>
+            </ol>
+
+            <div class="alert-lc alert-success-lc mt-4">
+              <i class="bi bi-search"></i>
+              <div><strong>Searching for matching donors…</strong>
+                <p class="mb-0" style="font-size:var(--fs-sm);">We'll notify you as soon as a nearby donor accepts.</p>
+              </div>
+            </div>
+
+            <div class="d-flex gap-3 flex-wrap justify-content-center mt-4">
+              <a href="../../index.html" class="btn-lc btn-outline-lc">Back to Home</a>
+              <a href="find-blood.html" class="btn-lc btn-primary-lc">Browse Donors Meanwhile</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="lc-footer-root"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../js/mock-data.js"></script>
+  <script src="../../js/storage.js"></script>
+  <script src="../../js/maps.js"></script>
+  <script src="../../js/main.js"></script>
+  <script src="../../js/navigation.js"></script>
+  <script>
+    LCNav.mount({ base: "../../", active: "" });
+
+    const bgSelect = document.getElementById("bloodGroup");
+    LCData.getBloodGroups().forEach(bg => {
+      const opt = document.createElement("option");
+      opt.value = bg; opt.textContent = bg;
+      bgSelect.appendChild(opt);
+    });
+
+    const hospitalSelect = document.getElementById("hospital");
+    LCData.getHospitals().forEach(h => {
+      const opt = document.createElement("option");
+      opt.value = h.name; opt.textContent = `${h.name} — ${h.area}, ${h.city}`;
+      hospitalSelect.appendChild(opt);
+    });
+
+    const form = document.getElementById("emergencyForm");
+    LCUtils.attachLiveValidation(form);
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (!LCUtils.validateForm(form)) {
+        LCUtils.showToast("Missing information", "Please fill in all required fields correctly.", "danger");
+        return;
+      }
+
+      const record = LCData.createBloodRequest({
+        patientName: document.getElementById("patientName").value,
+        bloodGroup: bgSelect.value,
+        hospital: hospitalSelect.value,
+        area: document.getElementById("location").value,
+        city: "",
+        units: Number(document.getElementById("units").value),
+        requiredDate: document.getElementById("requiredDate").value,
+        contact: document.getElementById("contact").value,
+        emergencyLevel: document.getElementById("emergencyLevel").value,
+        notes: document.getElementById("notes").value
+      });
+
+      document.getElementById("requestIdLabel").textContent = record.id;
+      document.getElementById("formColumn").parentElement.classList.add("d-none");
+      document.getElementById("successColumn").classList.remove("d-none");
+      LCUtils.showToast("Request submitted", `Emergency request ${record.id} was created.`, "success");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  </script>
+</body>
+</html>
